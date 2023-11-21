@@ -31,20 +31,21 @@
       };
     },
     methods: {
-      startGame() {
-        if (this.acceptTerms) {
-          // Perform actions when the user accepts terms (e.g., start the game)
-          console.log('Starting the game...');
-  
-          // Redirect to WhereIsWaldoPage
-          const whereIsWaldoRoute = { name: 'where-is-waldo' };
-          this.$router.push(whereIsWaldoRoute);
-        } else {
-          // Show a message or handle the case when terms are not accepted
-          console.log('Please accept the terms to start the game.');
-        }
-      }
+  startGame() {
+    console.log('startGame method called');
+    if (this.acceptTerms) {
+      // Perform actions when the user accepts terms (e.g., start the game)
+      console.log('Starting the game...');
+
+      // Redirect to WhereIsWaldoPage
+      const whereIsWaldoRoute = { name: 'where-is-waldo' };
+      this.$router.push(whereIsWaldoRoute);
+    } else {
+      // Show a message or handle the case when terms are not accepted
+      console.log('Please accept the terms to start the game.');
     }
+  }
+}
   };
   </script>
   
