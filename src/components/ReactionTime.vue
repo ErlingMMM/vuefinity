@@ -3,15 +3,18 @@
     <div v-if="!gameStarted || failed" class="message">
       <button @click.stop="startGame">Start</button>
     </div>
-    <div v-else>
-      <div v-if="!isGreen" class="message">Wait for green</div>
-      <div v-if="isGreen" class="message">Click!</div>
+    <div v-else-if="!isGreen && !success" class="message">Wait for green</div>
+    <div v-else-if="isGreen && !success" class="message">Click!</div>
+    <div v-if="success" class="success-message">
+      <p>Congratulations! You've clicked correctly 5 times!</p>
+      <button @click="goToColorTextPage">Go to the next test</button>
     </div>
-    <div v-if="reactionTime && !failed" class="reaction-time">Your reaction time: {{ reactionTime }} ms</div>
-    <div v-if="highScore && !failed" class="high-score">High Score: {{ highScore }} ms</div>
+    <div v-if="reactionTime && !failed && !success" class="reaction-time">Your reaction time: {{ reactionTime }} ms</div>
+    <div v-if="highScore && !failed && !success" class="high-score">High Score: {{ highScore }} ms</div>
     <div v-if="failed" class="fail-message">Too soon! Click "Start" to try again.</div>
   </section>
 </template>
+
   
 <script>
 export default {
@@ -20,10 +23,12 @@ export default {
       startTime: null,
       endTime: null,
       isGreen: false,
-      reactionTime: null,
+      reactionTime: null, 
       highScore: this.getHighScore(),
       gameStarted: false,
       failed: false,
+      correctClicks: 0, 
+      success: false, 
     };
   },
 
@@ -34,6 +39,8 @@ export default {
       this.reactionTime = null; // Reset reaction time
       this.isGreen = false; // Ensure the block is red
       this.changeColor(); // Start the change color sequence
+      this.correctClicks = 0; // Reset correct clicks count
+      this.success = false; // Reset the success state
     },
 
     checkReactionTime() {
@@ -46,14 +53,25 @@ export default {
         this.endTime = new Date().getTime();
         this.reactionTime = this.endTime - this.startTime;
         this.updateHighScore(this.reactionTime);
-        this.isGreen = false; // Reset the color for the next round
-        this.changeColor(); // Immediately start the next round
+        this.correctClicks++; // Increment correct clicks count
+        if (this.correctClicks >= 5) {
+          // Check if user has clicked correctly 5 times
+          this.success = true; // Set the success state
+          this.gameStarted = false; // Stop the game
+        } else {
+          this.isGreen = false; // Reset the color for the next round
+          this.changeColor(); // Immediately start the next round
+        }
       } else {
         // Incorrect click: clicked too soon
         this.failed = true; // Set the failed state
         this.gameStarted = false; // Stop the game
-        this.isGreen = false; // Reset the color
+        //this.isGreen = false; // Reset the color
       }
+    },
+
+    goToColorTextPage() {
+      this.$router.push({ name: 'color-text' }); // Replace with the actual route name
     },
 
     changeColor() {
@@ -121,6 +139,12 @@ button {
   color: yellow;
   font-size: 1.5rem;
   margin-top: 20px;
+}
+
+.success-message {
+  color: #4CAF50; /* Green color for success */
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 </style>
