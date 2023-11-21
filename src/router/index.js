@@ -3,6 +3,7 @@ import LoginPage from '../views/LoginPage.vue';
 import WhereIsWaldoPage from '../views/WhereIsWaldoPage.vue';
 import ReactionTimePage from '../views/ReactionTimePage.vue';
 import ColorTextPage from '../views/ColorTextPage.vue';
+import LeaderboardPage from '../views/LeaderboardPage.vue';
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/color-text',
         name: 'color-text',
         component: ColorTextPage
+    },
+    {
+        path: '/leaderboard',
+        name: 'leaderboard',
+        component: LeaderboardPage
     }
 ];
 
