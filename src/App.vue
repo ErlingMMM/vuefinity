@@ -1,22 +1,16 @@
 <template>
   <div id="app">
-    
     <router-view />
-    <ReactionTimePage />
   </div>
 </template>
 
 <script>
-//import LoginPage from '@/views/LoginPage.vue';
-//import WhereIsWaldoPage from '@/views/WhereIsWaldoPage.vue';
-//import ReactionTimePage from '@/views/ReactionTimePage.vue';
+
 
 export default {
   name: 'App',
   components: {
-    
    
-    
   }
 }
 </script>

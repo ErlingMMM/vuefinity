@@ -38,3 +38,21 @@ export default {
 };
 
 </script>
+
+<style>
+    .color-block {
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  transition: background-color 0.3s ease;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+</style>
