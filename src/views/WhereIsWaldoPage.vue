@@ -31,8 +31,6 @@ export default {
       document.documentElement.style.setProperty('--background-image', `url(${this.backgroundImage})`);
     },
     setButtonPosition() {
-      // Logic to determine button position based on the background
-      // You can customize this logic based on your design requirements
       switch (this.randomBackgroundNumber) {
         case 1:
           this.buttonPosition = { top: '7%', left: '41%' };
@@ -44,7 +42,6 @@ export default {
           this.buttonPosition = { top: '80%', left: '42%' };
           break;
         default:
-          // Use default position if no match
           this.buttonPosition = { top: '50%', left: '50%' };
       }
     },

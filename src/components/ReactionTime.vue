@@ -21,14 +21,15 @@ export default {
   },
   methods: {
     checkReactionTime() {
-      if (this.isGreen) {
-        this.endTime = new Date().getTime();
-        this.reactionTime = this.endTime - this.startTime;
-        this.isGreen = false;
-        this.updateHighScore(this.reactionTime);
-        setTimeout(this.changeColor, 2000); // Wait 2 seconds before starting over
-      }
-    },
+    if (this.isGreen) {
+      this.endTime = new Date().getTime();
+      this.reactionTime = this.endTime - this.startTime;
+      this.isGreen = false;
+      this.updateHighScore(this.reactionTime);
+      this.$emit('testComplete'); // Emit the event when the reaction time is checked
+      setTimeout(this.changeColor, 2000); // Wait 2 seconds before starting over
+    }
+  },
     changeColor() {
       this.endTime = null; // Reset the end time
       this.reactionTime = null; // Reset the reaction time
@@ -45,7 +46,10 @@ export default {
         this.highScore = newTime;
         localStorage.setItem('highScore', newTime);
       }
-    }
+    },
+    handleTestComplete() {
+    this.$emit('testComplete');
+  },
   },
   mounted() {
     this.changeColor();
