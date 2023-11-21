@@ -1,13 +1,18 @@
 <template>
-    <section class="full-screen" :class="{ green: isGreen, red: !isGreen }" @click="checkReactionTime">
-        <div v-if="!isGreen" class="message">Wait for green</div>
-        <div v-else class="message">Click!</div>
-        <div v-if="endTime" class="reaction-time">Your reaction time: {{ reactionTime }} ms</div>
-        <div class="high-score" v-if="highScore">High Score: {{ highScore }} ms</div>
-    </section>
+  <section class="full-screen" :class="{ green: isGreen, red: !isGreen }" @click="checkReactionTime">
+    <div v-if="!gameStarted || failed" class="message">
+      <button @click.stop="startGame">Start</button>
+    </div>
+    <div v-else>
+      <div v-if="!isGreen" class="message">Wait for green</div>
+      <div v-if="isGreen" class="message">Click!</div>
+    </div>
+    <div v-if="reactionTime && !failed" class="reaction-time">Your reaction time: {{ reactionTime }} ms</div>
+    <div v-if="highScore && !failed" class="high-score">High Score: {{ highScore }} ms</div>
+    <div v-if="failed" class="fail-message">Too soon! Click "Start" to try again.</div>
+  </section>
 </template>
-
-
+  
 <script>
 export default {
   data() {
@@ -16,31 +21,53 @@ export default {
       endTime: null,
       isGreen: false,
       reactionTime: null,
-      highScore: this.getHighScore(), // Initialize high score from localStorage
+      highScore: this.getHighScore(),
+      gameStarted: false,
+      failed: false,
     };
   },
+
   methods: {
-    checkReactionTime() {
-    if (this.isGreen) {
-      this.endTime = new Date().getTime();
-      this.reactionTime = this.endTime - this.startTime;
-      this.isGreen = false;
-      this.updateHighScore(this.reactionTime);
-      this.$emit('testComplete'); // Emit the event when the reaction time is checked
-      setTimeout(this.changeColor, 2000); // Wait 2 seconds before starting over
-    }
-  },
-    changeColor() {
-      this.endTime = null; // Reset the end time
-      this.reactionTime = null; // Reset the reaction time
-      setTimeout(() => {
-        this.isGreen = true;
-        this.startTime = new Date().getTime();
-      }, Math.floor(Math.random() * 5000) + 1000); // Change color randomly between 1 to 5 seconds
+    startGame() {
+      this.failed = false;  // Reset failed state
+      this.gameStarted = true; // Start the game
+      this.reactionTime = null; // Reset reaction time
+      this.isGreen = false; // Ensure the block is red
+      this.changeColor(); // Start the change color sequence
     },
+
+    checkReactionTime() {
+      if (!this.gameStarted) {
+        // Do nothing if the game hasn't started
+        return;
+      }
+      if (this.isGreen) {
+        // Correct click: record the reaction time
+        this.endTime = new Date().getTime();
+        this.reactionTime = this.endTime - this.startTime;
+        this.updateHighScore(this.reactionTime);
+        this.$emit('testComplete');
+        this.isGreen = false; // Reset the color for the next round
+        this.changeColor(); // Immediately start the next round
+      } else {
+        // Incorrect click: clicked too soon
+        this.failed = true; // Set the failed state
+        this.gameStarted = false; // Stop the game
+        this.isGreen = false; // Reset the color
+      }
+    },
+    
+    changeColor() {
+      setTimeout(() => {
+        this.isGreen = true; // Change to green
+        this.startTime = new Date().getTime(); // Record the start time
+      }, Math.floor(Math.random() * 5000) + 1000); // Random delay before the color changes
+    },
+
     getHighScore() {
       return localStorage.getItem('highScore') || null;
     },
+
     updateHighScore(newTime) {
       if (this.highScore === null || newTime < this.highScore) {
         this.highScore = newTime;
@@ -51,13 +78,9 @@ export default {
     this.$emit('testComplete');
   },
   },
-  mounted() {
-    this.changeColor();
-  },
 };
 </script>
-
-
+  
 <style>
 .full-screen {
   display: flex;
@@ -90,6 +113,18 @@ export default {
 .reaction-time {
   color: white;
   font-size: 1.5rem;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.fail-message {
+  color: yellow;
+  font-size: 1.5rem;
+  margin-top: 20px;
 }
 
 </style>
