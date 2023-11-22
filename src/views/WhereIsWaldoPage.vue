@@ -1,6 +1,7 @@
 <template>
   <section class="waldo-page">
-    <button :style="{ top: buttonPosition.top, left: buttonPosition.left }" @click="redirectToReactionTimePage">
+    <div class="countdown">{{ countdownFormatted }}</div>
+    <button :style="{ top: buttonPosition.top, left: buttonPosition.left }" @click="handleButtonClick">
       Click me
     </button>
   </section>
@@ -13,12 +14,29 @@ export default {
       backgroundImage: '',
       randomBackgroundNumber: 0,
       buttonPosition: { top: '50%', left: '50%' }, // Default position in the center
+      startTime: 0,
+      endTime: 0,
+      countdownSeconds: 30, // Set the countdown duration in seconds
+      countdownInterval: null, // Initialize the countdown interval variable
     };
   },
   created() {
     this.setRandomBackground();
     this.setButtonPosition();
+    this.startCountdown();
   },
+  computed: {
+    countdownFormatted() {
+      // Format the countdown with two decimal places
+      return this.countdownSeconds.toFixed(0);
+    },
+  },
+  watch: {
+  countdownSeconds(newValue) {
+    // Format the countdown with two decimal places
+    this.countdownFormatted = newValue.toFixed(2);
+  },
+},
   methods: {
     setRandomBackground() {
       // Generate a random number between 1 and 3
@@ -45,9 +63,36 @@ export default {
           this.buttonPosition = { top: '50%', left: '50%' };
       }
     },
-    redirectToReactionTimePage() {
-      const reactionTime = { name: 'reaction-time' };
-      this.$router.push(reactionTime);
+    startCountdown() {
+    // Start the countdown
+    this.countdownInterval = setInterval(() => {
+      this.countdownSeconds--;
+      this.countdownFormatted = (this.countdownSeconds).toFixed(2); // Update countdownFormatted directly
+
+      if (this.countdownSeconds <= 0) {
+        // If time runs out, redirect to the next page and set remaining time to 0.1
+        clearInterval(this.countdownInterval);
+        this.$router.push({ name: 'reaction-time' });
+        this.$root.reactionTime = 0.1; // Set remaining time to 0.1 seconds
+      }
+    }, 1000); // Update the countdown every second
+    },
+
+    handleButtonClick() {
+      // Stop the countdown if the button is clicked
+      clearInterval(this.countdownInterval);
+
+      // Record the time when the button is clicked
+      this.endTime = performance.now();
+
+      // Calculate the elapsed time in milliseconds
+      const elapsedTime = this.endTime - this.startTime;
+
+      // Attach the elapsed time to the Vue instance
+      this.$root.reactionTime = elapsedTime;
+
+      // Redirect to the next page
+      this.$router.push({ name: 'reaction-time' });
     },
   },
 };
@@ -64,6 +109,16 @@ export default {
   margin: 0;
   overflow: hidden;
 }
+
+.countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 220px;
+  color: black;
+}
+
 
 .waldo-page::before {
   content: "";
