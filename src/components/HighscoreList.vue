@@ -7,11 +7,11 @@
       </header>
       <ul class="highscore-list">
         <highscore-item
-          v-for="(user, index) in highscores"
+          v-for="(user, index) in users"
           :key="index"
-          :userId="user.id"
-          :username="user.name"
-          :score="user.highscore"
+          
+          :name="user.name"
+          :score="user.Score"
           :email="user.email"          
           class="highscore-entry"
         ></highscore-item>
@@ -20,42 +20,41 @@
   </template>
   
   <script>
-  import { ref } from 'vue';
+
   import HighscoreItem from './HighscoreItem.vue';
   import userService from '../services/userService.js';
   
   export default {
-    components: {
-      HighscoreItem
-    },
+    
     setup() {
-      const highscores = ref([]);
-  
-      const fetchHighScores = async () => {
+      
+  const users = userService.getAll();
+      /*const fetchHighScores = async () => {
         try {
-          const users = await userService.getAll(); // Ensure this is a method that returns a Promise
+           // Ensure this is a method that returns a Promise
           highscores.value = users.map(user => ({
-            id: user.id,
-            name: user.name,
-            highscore: user.highscore, // Ensure this property name is consistent with your backend
-            email: user.email,
+            
+            name: user.Name,
+            highscore: user.Score, // Ensure this property name is consistent with your backend
+            email: user.Email,
           }));
         } catch (error) {
           console.error('Error fetching highscores:', error);
         }
-      };
+      };*/
   
-      fetchHighScores(); // Invoke the fetch method
+      //fetchHighScores(); // Invoke the fetch method
   
       return {
-        highscores
-      };
+        users
+      }
+    },
+    components: {
+      HighscoreItem
     }
   };
-  </script>
+</script>
   
-  
-
 <style scoped>
 .leaderboard-container {
   font-family: 'Arial', sans-serif;

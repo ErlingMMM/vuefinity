@@ -1,9 +1,9 @@
 <template>
     <article class="highscore-item mx-auto">
         <div class="header w-100 p-2">
-            <h3>{{ name }}</h3>
-            <p>{{ email }}</p>
-            <h5>Score: {{ highscore }}</h5>
+            <h3>{{ Name }}</h3>
+            <p>{{ Email }}</p>
+            <h5>Score: {{ Score }}</h5>
         </div>
     </article>
 </template>
