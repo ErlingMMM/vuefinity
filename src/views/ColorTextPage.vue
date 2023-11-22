@@ -1,11 +1,16 @@
 <template>
     <section class="shapes-container">
-      <!-- The generated shapes and instructions will be appended here -->
       <div class="image-container">
         <!-- Placeholder for the images -->
       </div>
       <p class="instruction-text">
         <!-- Instruction text will be placed here -->
+      </p>
+      <p class="countdown-text">
+        <!-- Countdown text will be placed here -->
+      </p>
+      <p class="score-text">
+        <!-- Score text will be placed here -->
       </p>
     </section>
   </template>
@@ -16,111 +21,119 @@
       return {
         points: 0,
         correctImage: '',
+        countdown: 30,
       };
     },
     mounted() {
-      const images = [
-        'BlueTriangle',
-        'OrangeTriangle',
-        'GreenTriangle',
-        'BlueCircle',
-        'OrangeCircle',
-        'GreenCircle',
-      ];
-  
-      this.shuffleArray(images);
-  
-      const instructionElement = document.querySelector('.instruction-text');
-      const imageContainer = document.querySelector('.image-container');
-  
-      for (let i = 0; i < images.length; i++) {
-        this.generateRandomShape(images[i], instructionElement, imageContainer);
-      }
+      this.generateNewShapes();
+      this.startCountdown();
+      setInterval(() => {
+        this.updateCountdown();
+      }, 1000);
     },
     methods: {
-        generateRandomShape(imageName, instructionElement, imageContainer) {
-  // Create the image element
-  const imgElement = new Image();
-  imgElement.src = require(`@/assets/${imageName}.png`);
-  imgElement.width = 300; // Set the width to 300 pixels
-  imgElement.height = 300; // Set the height to 300 pixels
-
-  // Extract color and shape information from the image name
-  const color = imageName.includes('Blue') ? 'Blue' : imageName.includes('Orange') ? 'Orange' : 'Green';
-  const shape = imageName.includes('Circle') ? 'Circle' : 'Triangle';
-
-  // Update the instruction element
-  instructionElement.innerHTML = `<span style="font-size: 48px; font-weight: bold; text-align: center; width: 100%;">Click the <span style="color: ${this.getTextColor(color)}">${color}</span> ${shape}</span>`;
-
-  // Set the correct image for comparison
-  this.correctImage = imageName;
-
-  // Add a click event listener to the image
-  imgElement.addEventListener('click', () => {
-    this.handleImageClick(imageName);
-  });
-
-  // Append the image to the image container
-  imageContainer.appendChild(imgElement);
-
-  // Shuffle the images after setting the correct image
-  const allImages = Array.from(imageContainer.children);
-  this.shuffleArray(allImages);
-  imageContainer.innerHTML = ''; // Clear the container
-
-  // Append the shuffled images back to the container
-  allImages.forEach((image) => {
-    imageContainer.appendChild(image);
-  });
-},
-
+      generateRandomShape(imageName, imageContainer) {
+        const imgElement = new Image();
+        imgElement.src = require(`@/assets/${imageName}.png`);
+        imgElement.width = 200;
+        imgElement.height = 200;
+  
+        imgElement.addEventListener('click', () => {
+          this.handleImageClick(imageName);
+        });
+  
+        imageContainer.appendChild(imgElement);
+      },
+  
       shuffleArray(array) {
-        // Shuffle the array in-place using Fisher-Yates algorithm
         for (let i = array.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [array[i], array[j]] = [array[j], array[i]];
         }
       },
+  
       getTextColor(color) {
-        // Customize the text colors based on your design
-        return color === 'Blue' ? 'green' : color === 'Orange' ? 'blue' : 'orange';
+        return color === 'Blue' ? '#F87200' : color === 'Orange' ? '#72A89B' : '#4DAADD';
       },
-      handleImageClick(imageName) {
-  // Check if the clicked image corresponds to the correct text
-  if (imageName === this.correctImage) {
-    // Award points and generate a new set of shapes
-    this.points += 100;
-    console.log('Correct'); // Add this line to log "correct"
-    this.generateNewShapes();
-  } else {
-    // Incorrect click, handle as needed
-    console.log('Incorrect click. Try again.');
-  }
-},
-generateNewShapes() {
-  // Clear the contents of the image container
-  const imageContainer = document.querySelector('.image-container');
-  imageContainer.innerHTML = '';
-
-  // Reset points and generate a new set of shapes
-  this.points = 0;
-  const images = [
-    'BlueTriangle',
-    'OrangeTriangle',
-    'GreenTriangle',
-    'BlueCircle',
-    'OrangeCircle',
-    'GreenCircle',
-  ];
-
-  this.shuffleArray(images);
-
-  const instructionElement = document.querySelector('.instruction-text');
-  // Note: imageContainer is now cleared, so no need to pass it as an argument
-  for (let i = 0; i < images.length; i++) {
-    this.generateRandomShape(images[i], instructionElement, imageContainer);
-  }
-},
+  
+      getColorFromName(imageName) {
+        return imageName.includes('Blue') ? 'Blue' : imageName.includes('Orange') ? 'Orange' : 'Green';
+      },
+  
+      handleImageClick(clickedImage) {
+        if (clickedImage === this.correctImage) {
+          this.points += 5; // Correct shape, +5 points
+          console.log('Correct');
+        } else {
+          this.points -= 2; // Wrong shape, -2 points
+          console.log('Incorrect click. Try again.');
+        }
+        this.generateNewShapes();
+      },
+  
+      updateCountdown() {
+        const countdownElement = document.querySelector('.countdown-text');
+        countdownElement.textContent = `Time Left: ${this.countdown} seconds`;
+      },
+  
+      generateNewShapes() {
+        const images = [
+          'BlueTriangle',
+          'OrangeTriangle',
+          'GreenTriangle',
+          'BlueCircle',
+          'OrangeCircle',
+          'GreenCircle',
+        ];
+  
+        this.shuffleArray(images);
+  
+        const instructionElement = document.querySelector('.instruction-text');
+        const countdownElement = document.querySelector('.countdown-text');
+        const scoreElement = document.querySelector('.score-text');
+        const imageContainer = document.querySelector('.image-container');
+  
+        // Clear previous content
+        instructionElement.innerHTML = '';
+        countdownElement.textContent = '';
+        scoreElement.textContent = '';
+        imageContainer.innerHTML = '';
+  
+        // Choose a random shape to be the correct one
+        const correctIndex = Math.floor(Math.random() * images.length);
+        this.correctImage = images[correctIndex];
+  
+        // Display all shapes
+        images.forEach((imageName) => {
+          this.generateRandomShape(imageName, imageContainer);
+        });
+  
+        // Display instruction with the correct shape highlighted
+        const color = this.getColorFromName(this.correctImage);
+        const shape = this.correctImage.includes('Circle') ? 'Circle' : 'Triangle';
+  
+        const instructionText = `<span style="font-size: 48px; font-weight: bold; text-align: center; width: 100%;">Click the <span style="color: ${this.getTextColor(color)}">${color}</span> ${shape}</span>`;
+        instructionElement.innerHTML = instructionText;
+  
+        // Display countdown
+        this.updateCountdown();
+  
+        // Display score
+        scoreElement.textContent = `Score: ${this.points}`;
+      },
+  
+      startCountdown() {
+        setInterval(() => {
+          if (this.countdown > 0) {
+            this.countdown--;
+            this.updateCountdown(); // Refresh the countdown display
+          } else {
+            // Countdown reached 0, perform actions or end the game
+            console.log('Game Over! Total Points:', this.points);
+            clearInterval();
+          }
+        }, 1000); // Update every second
+      },
     },
   };
   </script>
@@ -130,7 +143,7 @@ generateNewShapes() {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px; /* Adjust the margin based on your design */
+    margin-top: 20px;
   }
   
   .image-container {
@@ -138,13 +151,12 @@ generateNewShapes() {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     justify-content: center;
-    margin-top: 20px; /* Adjust the margin based on your design */
+    margin-top: 20px;
   }
   
-  /* Adjust the styling based on your design */
   img {
-    border-radius: 50%; /* For circles */
-    cursor: pointer; /* Add pointer cursor for better UX */
+    border-radius: 50%;
+    cursor: pointer;
   }
   
   .instruction-text {
@@ -152,6 +164,21 @@ generateNewShapes() {
     font-weight: bold;
     text-align: center;
     margin-top: 20px;
+    width: 100%;
+  }
+  
+  .countdown-text {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 10px;
+    width: 100%;
+    color: #000; /* Black text */
+  }
+  
+  .score-text {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10px;
     width: 100%;
   }
   </style>
