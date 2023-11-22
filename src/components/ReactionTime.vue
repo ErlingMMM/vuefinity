@@ -1,7 +1,7 @@
 <template>
   <section class="full-screen" :class="{ green: isGreen, red: !isGreen }" @click="checkReactionTime">
-    <div v-if="!gameStarted || failed" class="message">
-      <button @click.stop="startGame">Start</button>
+    <div v-if="!gameStarted || failed" class="start-message">
+      <p>Click anywhere to start the game</p>
     </div>
     <div v-else-if="!isGreen && !success" class="message">Wait for green</div>
     <div v-else-if="isGreen && !success" class="message">Click!</div>
@@ -11,7 +11,7 @@
     </div>
     <div v-if="reactionTime && !failed && !success" class="reaction-time">Your reaction time: {{ reactionTime }} ms</div>
     <div v-if="highScore && !failed && !success" class="high-score">High Score: {{ highScore }} ms</div>
-    <div v-if="failed" class="fail-message">Too soon! Click "Start" to try again.</div>
+    <div v-if="failed" class="fail-message">Too soon! Click anywhere to try again.</div>
   </section>
 </template>
 
@@ -40,15 +40,18 @@ export default {
       this.isGreen = false; 
       this.changeColor(); 
       this.correctClicks = 0; 
-      this.success = false; 
+      //this.success = false; 
     },
 
     checkReactionTime() {
-      if (!this.gameStarted) {
-        // Do nothing if the game hasn't started
+      if (this.success) {
+        // Do nothing if the user has already completed the game successfully
         return;
       }
-      if (this.isGreen) {
+      if (!this.gameStarted || this.failed) {
+        // If the game hasn't started or the user has failed by clicking too soon
+        this.startGame();
+      } else if (this.isGreen) {
         // Correct click: record the reaction time
         this.endTime = new Date().getTime();
         this.reactionTime = this.endTime - this.startTime;
@@ -57,27 +60,27 @@ export default {
         this.correctClicks++; // Increment correct clicks count
         if (this.correctClicks >= 5) {
           // Check if user has clicked correctly 5 times
-          this.success = true; // Set the success state
-          this.gameStarted = false; // Stop the game
+          this.success = true; 
+          this.gameStarted = false; 
         } else {
-          this.isGreen = false; // Reset the color for the next round
-          this.changeColor(); // Immediately start the next round
+          this.isGreen = false; 
+          this.changeColor(); 
         }
       } else {
         // Incorrect click: clicked too soon
-        this.failed = true; // Set the failed state
-        this.gameStarted = false; // Stop the game
-        //this.isGreen = false; // Reset the color
+        this.failed = true; 
+        this.gameStarted = false; 
+        this.isGreen = false; 
       }
     },
 
     goToColorTextPage() {
-      this.$router.push({ name: 'color-text' }); // Replace with the actual route name
+      this.$router.push({ name: 'color-text' });
     },
 
     changeColor() {
       setTimeout(() => {
-        this.isGreen = true; // Change to green
+        this.isGreen = true; 
         this.startTime = new Date().getTime(); // Record the start time
       }, Math.floor(Math.random() * 5000) + 1000); // Random delay before the color changes
     },
@@ -119,6 +122,13 @@ export default {
 
 .green {
   background-color: green;
+}
+
+.start-message {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  margin: 20px;
 }
 
 .message {
