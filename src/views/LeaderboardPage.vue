@@ -1,14 +1,14 @@
 <template>
-  <high-scores></high-scores>
+  <highscore-list></highscore-list>
 </template>
 
 <script>
-import HighScores from '../components/HighScores.vue';
+import HighscoreList from '../components/HighscoreList.vue';
 
 export default {
   name: 'LeaderboardPage',
   components: {
-      HighScores,
+      HighscoreList,
   },
 }
 </script>

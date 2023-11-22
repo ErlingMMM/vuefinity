@@ -1,19 +1,31 @@
-export default async function userService() {
-    async function getAllUsers() {
-    try {
-        const response = await fetch("http://localhost:8080/api/users");
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching users:', error);
-    }
-}
+import { ref } from 'vue';
 
- async function postUser(user) {
+const userService = (function() {
+
+  const highscores = ref([]);
+
+  const userControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User";
+
+  // Immediately-invoked function to get all users
+  (async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/users", {
+      const response = await fetch(userControllerUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      highscores.value = await response.json();
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  })();
+
+  // Get all highscores
+  const getAll = () => highscores;
+
+  // Post a new user score
+  const postUser = async (user) => {
+    try {
+      const response = await fetch(userControllerUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,15 +35,17 @@ export default async function userService() {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return await response.json();
+      const newUser = await response.json();
+      highscores.value.push(newUser);
     } catch (error) {
       console.error('Error posting user:', error);
     }
-  }
+  };
 
-  async function putUser(userId, userData) {
+  // Update a user score by ID
+  const putUser = async (id, userData) => {
     try {
-      const response = await fetch(`${"http://localhost:8080/api/users"}/${userId}`, {
+      const response = await fetch(`${userControllerUrl}/${id}/updateScore`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -41,18 +55,26 @@ export default async function userService() {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return await response.json();
+      const updatedUser = await response.json();
+      const index = highscores.value.findIndex(user => user.id === id);
+      if (index !== -1) {
+        highscores.value[index] = updatedUser;
+      }
     } catch (error) {
       console.error('Error updating user:', error);
     }
-  }
+  };
 
   return {
-    getAllUsers,
+    getAll,
     postUser,
-    putUser
+    putUser,
   };
-}
+
+}());
+
+export default userService;
+
 
 
   
