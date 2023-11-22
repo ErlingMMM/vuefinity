@@ -110,6 +110,14 @@ export default {
   overflow: hidden;
 }
 
+.waldo-page:hover {
+    cursor: pointer;
+}
+
+.hover {
+    cursor:pointer
+}
+
 .countdown {
   position: absolute;
   top: 50%;
