@@ -53,6 +53,7 @@ export default {
         this.endTime = new Date().getTime();
         this.reactionTime = this.endTime - this.startTime;
         this.updateHighScore(this.reactionTime);
+        this.$emit('testComplete');
         this.correctClicks++; // Increment correct clicks count
         if (this.correctClicks >= 5) {
           // Check if user has clicked correctly 5 times

@@ -62,6 +62,16 @@
 
   // Append the image to the image container
   imageContainer.appendChild(imgElement);
+
+  // Shuffle the images after setting the correct image
+  const allImages = Array.from(imageContainer.children);
+  this.shuffleArray(allImages);
+  imageContainer.innerHTML = ''; // Clear the container
+
+  // Append the shuffled images back to the container
+  allImages.forEach((image) => {
+    imageContainer.appendChild(image);
+  });
 },
 
       shuffleArray(array) {
