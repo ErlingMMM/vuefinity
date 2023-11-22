@@ -1,72 +1,111 @@
 <template>
   <div class="login-page">
     <img src="@/assets/experislogo.png" alt="Experis Logo" class="experis-logo" />
-    <h2>Registration</h2>
     <form @submit.prevent="startGame">
       <div class="form-group">
-        <label for="name" class="form-label">UserName:</label>
-        <input type="text" id="name" v-model="name" required />
+        <label for="name" class="form-label big-text"></label>
+        <input type="text" id="name" v-model="name" placeholder="Brukernavn" class="rounded-input big-input" required />
       </div>
       <div class="form-group">
-        <label for="email" class="form-label">E-Mail:</label>
-        <input type="email" id="email" v-model="email" required />
+        <label for="email" class="form-label big-text"></label>
+        <input type="email" id="email" v-model="email" placeholder="E-post" class="rounded-input big-input" required />
       </div>
-      <div class="form-group">
-        <label>
-          <input type="checkbox" v-model="acceptTerms" />
-          I want a chance to win the prize and accept to receive Emails from Experis.
+      <div class="form-group checkbox-group">
+        <label class="big-text checkbox-label">
+          Jeg ønsker en sjanse til å vinne premien<br>og aksepterer å motta e-post fra Experis.
+          <input type="checkbox" v-model="acceptTerms" class="custom-checkbox" />
         </label>
       </div>
-      <button type="submit">Start the Game</button>
+      <button type="submit" class="big-button">Start spillet</button>
     </form>
   </div>
 </template>
-  
-  <script>
 
-  export default {
-    data() {
-      return {
-        name: '',
-        email: '',
-        acceptTerms: false
-      };
-    },
-    methods: {
-  startGame() {
+<script>
+export default {
+  data() {
+    return {
+      name: '',
+      email: '',
+      acceptTerms: false,
+    };
+  },
+  methods: {
+    startGame() {
       const whereIsWaldoRoute = { name: 'where-is-waldo' };
       this.$router.push(whereIsWaldoRoute);
-    
-  }
-}
-  };
-  </script>
-  
-  <style>
+    },
+  },
+};
+</script>
+
+<style>
 .login-page {
-  max-width: 400px;
+  max-width: 800px; /* Make the container wider */
   margin: auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 40px; /* Increase the padding */
   text-align: center;
 }
 
+.experis-logo {
+  margin-bottom: 1.5cm; /* Increase the gap between the logo and the form to 4 cm */
+}
+
+.big-text {
+  font-size: 24px; /* Double the font size */
+}
+
 .form-group {
-  margin-bottom: 15px;
+  margin-top: 0px; /* Increase the margin between form groups, adjust as needed */
 }
 
 .form-label {
-  min-width: 100px; /* Adjust the width as needed */
+  min-width: 200px; /* Adjust the width as needed */
   display: inline-block;
+  text-align: center; /* Center the text inside the label */
 }
 
-button {
-  padding: 10px;
+.rounded-input {
+  border: 2px solid #ccc; /* Increase the border size */
+  border-radius: 10px; /* Double the border-radius */
+  padding: 16px; /* Double the padding */
+  width: 45%; /* Reduce the width to move it a bit to the left */
+  margin-left: -25%; /* Add some margin to the left */
+  margin-bottom: 0.5cm
+}
+
+.big-input {
+  font-size: 18px; /* Double the font size for input fields */
+}
+
+.big-button {
+  padding: 20px; /* Double the padding for the button */
+  font-size: 20px; /* Double the font size for the button */
   background-color: #F87200;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px; /* Double the border-radius for the button */
   cursor: pointer;
 }
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+  margin-bottom: 1cm; /* Adjust the margin between the checkbox group and the next form group */
+  margin-top: 0.5cm;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+}
+
+.custom-checkbox {
+  width: 20px; /* Adjust the width as needed */
+  height: 20px; /* Adjust the height as needed */
+  margin-left: 10px; /* Adjust the margin between the text and the checkbox */
+}
+
 </style>
