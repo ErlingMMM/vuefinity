@@ -34,13 +34,13 @@ export default {
 
   methods: {
     startGame() {
-      this.failed = false;  // Reset failed state
-      this.gameStarted = true; // Start the game
-      this.reactionTime = null; // Reset reaction time
-      this.isGreen = false; // Ensure the block is red
-      this.changeColor(); // Start the change color sequence
-      this.correctClicks = 0; // Reset correct clicks count
-      this.success = false; // Reset the success state
+      this.failed = false;  
+      this.gameStarted = true; 
+      this.reactionTime = null; 
+      this.isGreen = false; 
+      this.changeColor(); 
+      this.correctClicks = 0; 
+      this.success = false; 
     },
 
     checkReactionTime() {
