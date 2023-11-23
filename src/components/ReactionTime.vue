@@ -23,23 +23,23 @@ export default {
       startTime: null,
       endTime: null,
       isGreen: false,
-      reactionTime: null, 
+      reactionTime: null,
       highScore: this.getHighScore(),
       gameStarted: false,
       failed: false,
-      correctClicks: 0, 
-      success: false, 
+      correctClicks: 0,
+      success: false,
     };
   },
 
   methods: {
     startGame() {
-      this.failed = false;  
-      this.gameStarted = true; 
-      this.reactionTime = null; 
-      this.isGreen = false; 
-      this.changeColor(); 
-      this.correctClicks = 0; 
+      this.failed = false;
+      this.gameStarted = true;
+      this.reactionTime = null;
+      this.isGreen = false;
+      this.changeColor();
+      this.correctClicks = 0;
       //this.success = false; 
     },
 
@@ -60,17 +60,17 @@ export default {
         this.correctClicks++; // Increment correct clicks count
         if (this.correctClicks >= 5) {
           // Check if user has clicked correctly 5 times
-          this.success = true; 
-          this.gameStarted = false; 
+          this.success = true;
+          this.gameStarted = false;
         } else {
-          this.isGreen = false; 
-          this.changeColor(); 
+          this.isGreen = false;
+          this.changeColor();
         }
       } else {
         // Incorrect click: clicked too soon
-        this.failed = true; 
-        this.gameStarted = false; 
-        this.isGreen = false; 
+        this.failed = true;
+        this.gameStarted = false;
+        this.isGreen = false;
       }
     },
 
@@ -80,7 +80,7 @@ export default {
 
     changeColor() {
       setTimeout(() => {
-        this.isGreen = true; 
+        this.isGreen = true;
         this.startTime = new Date().getTime(); // Record the start time
       }, Math.floor(Math.random() * 5000) + 1000); // Random delay before the color changes
     },
@@ -92,12 +92,14 @@ export default {
     },
 
     updateHighScore(newTime) {
-      this.highScore = newTime;
-        localStorage.setItem('score', newTime.toString());
+      const savedScore = localStorage.getItem('score') || null
+      const scoreFirsGame = parseFloat(savedScore)
+      const updatedScore = (newTime / 5) + scoreFirsGame
+      localStorage.setItem('score', updatedScore.toString());
     },
     handleTestComplete() {
-    this.$emit('testComplete');
-  },
+      this.$emit('testComplete');
+    },
   },
 };
 </script>
@@ -113,7 +115,8 @@ export default {
   transition: background-color 0.3s ease;
   cursor: pointer;
   font-family: 'Arial', sans-serif;
-  user-select: none; /* Prevent user selection on double clicks */
+  user-select: none;
+  /* Prevent user selection on double clicks */
 }
 
 .red {
@@ -156,9 +159,9 @@ button {
 }
 
 .success-message {
-  color: #4CAF50; /* Green color for success */
+  color: #4CAF50;
+  /* Green color for success */
   font-size: 1.5rem;
   text-align: center;
 }
-
 </style>
