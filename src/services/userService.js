@@ -45,27 +45,43 @@ console.log(users.value);
     }
   };
 
-  const putUser = async (email, userData) => {
-    try {
-      const response = await fetch(`${userControllerUrl}/${email}/updateScore`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ newScore: userData.newScore }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const updatedUser = await response.json();
-      const index = users.value.findIndex(user => user.email === email);
-      if (index !== -1) {
-        users.value[index] = updatedUser;
-      }
-    } catch (error) {
-      console.error('Error updating user:', error);
+  const email = 'test2@mail.com';
+const updatedUserData = {
+  newScore: 1500, 
+};
+
+
+
+const putUser = async (email, userData) => {
+  try {
+    const response = await fetch(`${userControllerUrl}/${email}/updateScore`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ newScore: userData.newScore }),
+    });
+
+    console.log('Response status:', response.status); // Log the HTTP response status
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-  };
+
+    const updatedUser = await response.json();
+    console.log('Updated user:', updatedUser); // Log the updated user
+
+    const index = users.value.findIndex(user => user.email === email);
+    if (index !== -1) {
+      users.value[index] = updatedUser;
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+  }
+};
+
+putUser(email, updatedUserData);
+
 
   // Get top 10 highscores
   const getTop10 = async () => {
