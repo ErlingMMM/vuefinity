@@ -5,6 +5,9 @@ const userService = (function() {
   const highscores = ref([]);
 
   const userControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User";
+  const top10ControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User/top10";
+  
+
 
   // Immediately-invoked function to get all users
   (async () => {
@@ -42,10 +45,9 @@ const userService = (function() {
     }
   };
 
-  // Update a user score by ID
-  const putUser = async (id, userData) => {
+  const putUser = async (email, userData) => {
     try {
-      const response = await fetch(`${userControllerUrl}/${id}/updateScore`, {
+      const response = await fetch(`${userControllerUrl}/${email}/updateScore`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +58,7 @@ const userService = (function() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const updatedUser = await response.json();
-      const index = highscores.value.findIndex(user => user.id === id);
+      const index = highscores.value.findIndex(user => user.email === email);
       if (index !== -1) {
         highscores.value[index] = updatedUser;
       }
@@ -65,7 +67,23 @@ const userService = (function() {
     }
   };
 
+  // Get top 10 highscores
+  const getTop10 = async () => {
+    try {
+      const response = await fetch(top10ControllerUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const top10 = await response.json();
+      // Update the highscores with the top 10 data
+      highscores.value = top10;
+    } catch (error) {
+      console.error('Error fetching top 10:', error);
+    }
+  };
+
   return {
+    getTop10,
     getAll,
     postUser,
     putUser,

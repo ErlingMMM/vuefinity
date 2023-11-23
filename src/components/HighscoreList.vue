@@ -28,7 +28,7 @@
     
     setup() {
       
-  const users = userService.getAll();
+  const users = userService.getTop10();
       /*const fetchHighScores = async () => {
         try {
            // Ensure this is a method that returns a Promise
