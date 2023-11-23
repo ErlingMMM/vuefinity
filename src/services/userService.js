@@ -12,7 +12,7 @@ console.log(users.value);
   // Immediately-invoked function to get all users
   (async () => {
     try {
-      const response = await fetch(userControllerUrl);
+      const response = await fetch(top10ControllerUrl);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -23,7 +23,7 @@ console.log(users.value);
   })();
 
   // Get all highscores
-  const getAll = () => users;
+  const getTop10 = () => users;
 
   // Post a new user score
   const postUser = async (user) => {
@@ -44,10 +44,6 @@ console.log(users.value);
       console.error('Error posting user:', error);
     }
   };
-
-
-
-
 
 const putUser = async (email, userData) => {
   try {
@@ -81,7 +77,7 @@ const putUser = async (email, userData) => {
 
 
   // Get top 10 highscores
-  const getTop10 = async () => {
+  /*const getTop10 = async () => {
     try {
       const response = await fetch(top10ControllerUrl);
       if (!response.ok) {
@@ -94,13 +90,12 @@ const putUser = async (email, userData) => {
     } catch (error) {
       console.error('Error fetching top 10:', error);
     }
-  };
+  };*/
 
 
 
   return {
     getTop10,
-    getAll,
     postUser,
     putUser,
   };
