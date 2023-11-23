@@ -34,11 +34,11 @@ export default {
     },
   },
   watch: {
-  countdownSeconds(newValue) {
-    // Format the countdown with two decimal places
-    this.countdownFormatted = newValue.toFixed(2);
+    countdownSeconds(newValue) {
+      // Format the countdown with two decimal places
+      this.countdownFormatted = newValue.toFixed(2);
+    },
   },
-},
   methods: {
     setRandomBackground() {
       // Generate a random number between 1 and 3
@@ -66,20 +66,21 @@ export default {
       }
     },
     startCountdown() {
-    // Start the countdown
-    this.countdownInterval = setInterval(() => {
-      this.countdownSeconds--;
-      this.countdownFormatted = (this.countdownSeconds).toFixed(2); // Update countdownFormatted directly
+      // Start the countdown
+      this.countdownInterval = setInterval(() => {
+        this.countdownSeconds--;
 
-      if (this.countdownSeconds <= 0) {
-        // If time runs out, redirect to the next page and set remaining time to 0.1
-        clearInterval(this.countdownInterval);
-        this.$router.push({ name: 'reaction-time' });
-        this.$root.reactionTime = 0.1; // Set remaining time to 0.1 seconds
-      }
-    }, 1000); // Update the countdown every second
+        if (this.countdownSeconds <= 0) {
+          // If time runs out and the button is not clicked, set the score to 0.1
+          clearInterval(this.countdownInterval);
+          this.$root.UserHighScore = 0.1; // Set remaining time to 0.1 seconds
+          localStorage.setItem('score', '0.1');
+
+          // Redirect to the next page
+          this.$router.push({ name: 'reaction-time' });
+        }
+      }, 1000); // Update the countdown every second
     },
-
     handleButtonClick() {
       // Stop the countdown if the button is clicked
       clearInterval(this.countdownInterval);
@@ -90,8 +91,15 @@ export default {
       // Calculate the elapsed time in milliseconds
       const elapsedTime = this.endTime - this.startTime;
 
-      // Attach the elapsed time to the Vue instance
-      this.$root.UserHighScore = elapsedTime;
+      // Calculate the remaining time in seconds
+      const remainingTime = Math.max(this.countdownSeconds - (elapsedTime / 1000), 0);
+
+      // Set the score to a minimum of 0.1 seconds if the user didn't click in time
+      const score = remainingTime > 0 ? remainingTime : 0.1;
+
+      // Save the score to local storage
+      localStorage.setItem('score', score.toString());
+
       // Redirect to the next page
       this.$router.push({ name: 'reaction-time' });
     },
@@ -115,10 +123,6 @@ export default {
     cursor: pointer;
 }
 
-.hover {
-    cursor:pointer
-}
-
 .countdown {
   position: absolute;
   top: 50%;
@@ -127,7 +131,6 @@ export default {
   font-size: 220px;
   color: black;
 }
-
 
 .waldo-page::before {
   content: "";

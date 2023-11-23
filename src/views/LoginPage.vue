@@ -68,7 +68,7 @@ export default {
 
           // Pass the email to the ColorTextPage component
           this.$router.push({
-            name: 'color-text',
+            name: 'where-is-waldo',
             params: { userEmail: this.email },
           });
         }

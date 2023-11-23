@@ -13,18 +13,19 @@ export default {
   computed: {
     AvgReactionTime() {
       // Calculate average reaction time
-      const totalReactionTime = this.$root.UserHighScore + this.$root.reactionTime;
+      const storedUserHighScore = localStorage.getItem('score');
+      const userHighScore = storedUserHighScore ? parseInt(storedUserHighScore, 10) : 0;
+
+      const totalReactionTime = userHighScore + this.$root.reactionTime;
       return totalReactionTime / 5;
     },
   },
 
   watch: {
     AvgReactionTime(newValue) {
-      // Update UserHighScore
-      this.$root.UserHighScore = newValue;
+      // Update UserHighScore in local storage
+      localStorage.setItem('score', newValue);
     },
   },
 }
-
 </script>
-  
