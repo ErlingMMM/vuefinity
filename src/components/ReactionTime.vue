@@ -92,10 +92,8 @@ export default {
     },
 
     updateHighScore(newTime) {
-      if (this.highScore === null || newTime < this.highScore) {
-        this.highScore = newTime;
+      this.highScore = newTime;
         localStorage.setItem('score', newTime.toString());
-      }
     },
     handleTestComplete() {
     this.$emit('testComplete');
