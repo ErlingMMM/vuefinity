@@ -1,34 +1,34 @@
 import { ref } from 'vue';
 
-const userService = (function() {
+const highscoreService = (function() {
 
-  const users = ref([]);
-  //const top10Users = ref([]);
+  //const users = ref([]);
+  const top10 = ref([]);
 
-  const userControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User";
-  //const top10ControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User/top10";
+  //const userControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User";
+  const top10ControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User/top10";
   
-console.log(users.value);
+console.log(top10.value);
 
   // Immediately-invoked function to get all users
   (async () => {
     try {
-      const response = await fetch(userControllerUrl);
+      const response = await fetch(top10ControllerUrl);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      users.value = await response.json();
+      top10.value = await response.json();
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   })();
 
   // Get all highscores
-  //const getTop10 = () => top10Users;
-  const getAll = () => users;
+  const getTop10 = () => top10;
+  //const getAll = () => users;
 
   // Post a new user score
-  const postUser = async (user) => {
+  /*const postUser = async (user) => {
     try {
       const response = await fetch(userControllerUrl, {
         method: 'POST',
@@ -73,13 +73,13 @@ const putUser = async (email, userData) => {
   } catch (error) {
     console.error('Error updating user:', error);
   }
-};
+};*/
 
 //putUser(email, updatedUserData);
 
 
   // Get top 10 highscores
-  /*const getTop10Users = async () => {
+  const getTop10Users = async () => {
     try {
       const response = await fetch(top10ControllerUrl);
       if (!response.ok) {
@@ -88,24 +88,17 @@ const putUser = async (email, userData) => {
       const top10 = await response.json();
       console.log(JSON.stringify(top10) + " top10");
       // Update the highscores with the top 10 data
-      users.value = top10;
+      top10.value = top10;
     } catch (error) {
       console.error('Error fetching top 10:', error);
     }
-  };*/
+  };
 
   return {
-    //getTop10,
-    postUser,
-    putUser,
-    getAll,
-    //getTop10Users
+    getTop10,
+    getTop10Users
   };
 
 }());
 
-export default userService;
-
-
-
-  
+export default highscoreService;
