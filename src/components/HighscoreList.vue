@@ -24,7 +24,7 @@ import highscoreService from '../services/highscoreService.js';
 
 export default {
   setup() {
-    const top10 = highscoreService.getTop10(); // <-- Må byttes til getTop10
+    const top10 = highscoreService.getTop10();
 
     return {
       top10
