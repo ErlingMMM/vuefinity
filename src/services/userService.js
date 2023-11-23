@@ -7,7 +7,7 @@ const userService = (function() {
   const userControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User";
   const top10ControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User/top10";
   
-console.log(users);
+console.log(users.value);
 
   // Immediately-invoked function to get all users
   (async () => {
