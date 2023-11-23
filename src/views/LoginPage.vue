@@ -121,6 +121,10 @@ export default {
   cursor: pointer;
 }
 
+.big-button:hover {
+background-color: #FF8C29;
+}
+
 .checkbox-group {
   display: flex;
   align-items: center;
