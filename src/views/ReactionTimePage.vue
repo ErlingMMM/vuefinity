@@ -14,7 +14,7 @@ export default {
     AvgReactionTime() {
       // Calculate average reaction time
       const storedUserHighScore = localStorage.getItem('score');
-      const userHighScore = storedUserHighScore ? parseInt(storedUserHighScore, 10) : 0;
+      const userHighScore = storedUserHighScore ? parseFloat(storedUserHighScore, 10) : 0;
 
       const totalReactionTime = userHighScore + this.$root.reactionTime;
       return totalReactionTime / 5;

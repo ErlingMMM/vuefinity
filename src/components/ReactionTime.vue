@@ -86,13 +86,15 @@ export default {
     },
 
     getHighScore() {
-      return localStorage.getItem('highScore') || null;
+      const savedScore = localStorage.getItem('score') || null
+      const score = parseFloat(savedScore)
+      return score;
     },
 
     updateHighScore(newTime) {
       if (this.highScore === null || newTime < this.highScore) {
         this.highScore = newTime;
-        localStorage.setItem('highScore', newTime);
+        localStorage.setItem('score', newTime.toString());
       }
     },
     handleTestComplete() {
