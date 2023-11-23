@@ -95,10 +95,10 @@ export default {
       const remainingTime = Math.max(this.countdownSeconds - (elapsedTime / 1000), 0);
 
       // Set the score to a minimum of 0.1 seconds if the user didn't click in time
-      const score = remainingTime > 0 ? remainingTime : 0.1;
+      //const score = remainingTime > 0 ? remainingTime : 0.1;
 
       // Save the score to local storage
-      localStorage.setItem('score', score.toString());
+      localStorage.setItem('score', remainingTime.toString());
 
       // Redirect to the next page
       this.$router.push({ name: 'reaction-time' });
