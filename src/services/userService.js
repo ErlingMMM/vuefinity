@@ -75,12 +75,14 @@ const userService = (function() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const top10 = await response.json();
+      console.log(JSON.stringify(top10) + " top10");
       // Update the highscores with the top 10 data
       highscores.value = top10;
     } catch (error) {
       console.error('Error fetching top 10:', error);
     }
   };
+
 
   return {
     getTop10,
