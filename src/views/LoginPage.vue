@@ -7,34 +7,65 @@
         <input type="text" id="name" v-model="name" placeholder="Brukernavn" class="rounded-input big-input" required />
       </div>
       <div class="form-group">
+  <label for="phone" class="form-label big-text"></label>
+  <input type="phone" id="phone" v-model="phone" placeholder="Telefon" class="rounded-input big-input" required />
+</div>
+      <div class="form-group">
         <label for="email" class="form-label big-text"></label>
         <input type="email" id="email" v-model="email" placeholder="E-post" class="rounded-input big-input" required />
       </div>
       <div class="form-group checkbox-group">
-        <label class="big-text checkbox-label">
-          Jeg ønsker en sjanse til å vinne premien<br>og aksepterer å motta e-post fra Experis.
-          <input type="checkbox" v-model="acceptTerms" class="custom-checkbox" />
-        </label>
-      </div>
+  <label class="big-text checkbox-label">
+    Jeg ønsker en sjanse til å vinne premien<br>og aksepterer å motta e-post fra Experis.
+    <input type="checkbox" v-model="acceptTerms" class="custom-checkbox" />
+  </label>
+</div>
       <button type="submit" class="big-button">Start spillet</button>
     </form>
   </div>
 </template>
 
 <script>
+import userService from '@/services/userService'; // Adjust the path accordingly
+
 export default {
   data() {
-    return {
-      name: '',
-      email: '',
-      acceptTerms: false,
-    };
-  },
+  return {
+    name: '',
+    email: '',
+    phone: '',
+    acceptTerms: false,
+  };
+},
   methods: {
-    startGame() {
+    async startGame() {
+  try {
+    // Check if the email already exists in the database
+    const userExists = userService.getAll().value.some(user => user.email === this.email);
+
+    if (userExists) {
+      // Email already exists, handle accordingly (you might want to show an error message)
+      console.log('User with this email already exists!');
+    } else {
+      // Email does not exist, post a new user
+      const newUser = {
+        name: this.name,
+        email: this.email,
+        phoneNumber: this.phone,
+        allowContact: this.acceptTerms,
+        score: 0, // Adjust the initial score as needed
+      };
+
+      await userService.postUser(newUser);
+
+      // Continue with the game (you might want to navigate to the game page)
       const whereIsWaldoRoute = { name: 'where-is-waldo' };
       this.$router.push(whereIsWaldoRoute);
-    },
+    }
+  } catch (error) {
+    console.error('Error starting the game:', error);
+  }
+},
   },
 };
 </script>
