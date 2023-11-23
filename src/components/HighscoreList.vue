@@ -6,8 +6,8 @@
     </header>
     <ul class="highscore-list">
       <highscore-item
-        v-for="(user, index) in users"
-        :key="index"
+        v-for="(user, i) in top10"
+        :key="i"
         :name="user.name"
         :score="user.score"
         :email="user.email"   
@@ -20,14 +20,14 @@
   
 <script>
 import HighscoreItem from './HighscoreItem.vue';
-import userService from '../services/userService.js';
+import highscoreService from '../services/highscoreService.js';
 
 export default {
   setup() {
-    const users = userService.getTop10Users(); // <-- Må byttes til getTop10
+    const top10 = highscoreService.getTop10();
 
     return {
-      users
+      top10
     }
   },
   components: {

@@ -3,12 +3,9 @@ import { ref } from 'vue';
 const userService = (function() {
 
   const users = ref([]);
-  const top10Users = ref([]);
-
   const userControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User";
-  const top10ControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User/top10";
   
-console.log(users.value);
+  console.log(users.value);
 
   // Immediately-invoked function to get all users
   (async () => {
@@ -23,8 +20,6 @@ console.log(users.value);
     }
   })();
 
-  // Get all highscores
-  const getTop10 = () => top10Users;
   const getAll = () => users;
 
   // Post a new user score
@@ -77,31 +72,10 @@ const putUser = async (email, userData) => {
 
 //putUser(email, updatedUserData);
 
-
-  // Get top 10 highscores
-  const getTop10Users = async () => {
-    try {
-      const response = await fetch(top10ControllerUrl);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const top10 = await response.json();
-      console.log(JSON.stringify(top10) + " top10");
-      // Update the highscores with the top 10 data
-      users.value = top10;
-    } catch (error) {
-      console.error('Error fetching top 10:', error);
-    }
-  };
-
-
-
   return {
-    getTop10,
     postUser,
     putUser,
     getAll,
-    getTop10Users
   };
 
 }());
