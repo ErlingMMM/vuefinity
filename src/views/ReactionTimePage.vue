@@ -4,7 +4,6 @@
 
 <script>
 import ReactionTime from '../components/ReactionTime.vue';
-import userService from '@/services/userService';
 
 export default {
   name: 'ReactionTimePage',

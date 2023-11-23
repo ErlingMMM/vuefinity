@@ -50,7 +50,7 @@ const userService = (function() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify({ newScore: userData.newScore }),
       });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

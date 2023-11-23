@@ -39,34 +39,36 @@ export default {
 },
   methods: {
     async startGame() {
-  try {
-    // Check if the email already exists in the database
-    const userExists = userService.getAll().value.some(user => user.email === this.email);
+    try {
+      // Check if the email already exists in the database
+      const userExists = userService.getAll().value.some(user => user.email === this.email);
 
-    if (userExists) {
-      // Email already exists, handle accordingly (you might want to show an error message)
-      console.log('User with this email already exists!');
-    } else {
-      // Email does not exist, post a new user
-      const newUser = {
-        name: this.name,
-        email: this.email,
-        phoneNumber: this.phone,
-        allowContact: this.acceptTerms,
-        score: 0, // Adjust the initial score as needed
-      };
+      if (userExists) {
+        // Email already exists, handle accordingly (you might want to show an error message)
+        console.log('User with this email already exists!');
+      } else {
+        // Email does not exist, post a new user
+        const newUser = {
+          name: this.name,
+          email: this.email,
+          phoneNumber: this.phone,
+          allowContact: this.acceptTerms,
+          score: 0, // Adjust the initial score as needed
+        };
 
-      await userService.postUser(newUser);
+        await userService.postUser(newUser);
+        const gameRoute = { name: 'game', params: { userEmail: this.email } };
+        this.$router.push(gameRoute);
 
-      // Continue with the game (you might want to navigate to the game page)
-      const whereIsWaldoRoute = { name: 'where-is-waldo' };
-      this.$router.push(whereIsWaldoRoute);
+        // Change the following line to navigate to the ColorTextPage or any other component
+        const whereIsWaldo = { name: 'where-is-waldo' };
+        this.$router.push(whereIsWaldo);
+      }
+    } catch (error) {
+      console.error('Error starting the game:', error);
     }
-  } catch (error) {
-    console.error('Error starting the game:', error);
-  }
-},
   },
+},
 };
 </script>
 

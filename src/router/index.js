@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../views/LoginPage.vue';
 import WhereIsWaldoPage from '../views/WhereIsWaldoPage.vue';
 import ReactionTimePage from '../views/ReactionTimePage.vue';
@@ -30,7 +30,13 @@ const routes = [
         path: '/leaderboard',
         name: 'leaderboard',
         component: LeaderboardPage
-    }
+    },
+    {
+        path: '/game/:userEmail',
+        name: 'game',
+        component: ColorTextPage,
+        props: true,
+      },
 ];
 
 const router = createRouter({

@@ -16,21 +16,22 @@
   </template>
   
   <script>
+  import userService from '@/services/userService';
   export default {
-    data() {
-      return {
-        points: 0,
-        correctImage: '',
-        countdown: 30,
-      };
-    },
-    mounted() {
-      this.generateNewShapes();
-      this.startCountdown();
-      setInterval(() => {
-        this.updateCountdown();
-      }, 1000);
-    },
+  data() {
+    return {
+      points: 0,
+      correctImage: '',
+      countdown: 30,
+    };
+  },
+  mounted() {
+    this.generateNewShapes();
+    this.startCountdown();
+    setInterval(() => {
+      this.updateCountdown();
+    }, 1000);
+  },
     methods: {
       generateRandomShape(imageName, imageContainer) {
         const imgElement = new Image();
@@ -72,9 +73,9 @@
       },
   
       updateCountdown() {
-        const countdownElement = document.querySelector('.countdown-text');
-        countdownElement.textContent = `Time Left: ${this.countdown} seconds`;
-      },
+      const countdownElement = document.querySelector('.countdown-text');
+      countdownElement.textContent = `Time Left: ${this.countdown} seconds`;
+    },
   
       generateNewShapes() {
         const images = [
@@ -123,19 +124,39 @@
       },
   
       startCountdown() {
-        setInterval(() => {
-          if (this.countdown > 0) {
-            this.countdown--;
-            this.updateCountdown(); // Refresh the countdown display
-          } else {
-            // Countdown reached 0, perform actions or end the game
-            console.log('Game Over! Total Points:', this.points);
-            clearInterval();
+      setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--;
+          this.updateCountdown(); // Refresh the countdown display
+        } else {
+          // Countdown reached 0, perform actions or end the game
+          console.log('Game Over! Total Points:', this.points);
+
+          // Calculate total points
+          const totalPoints = this.points;
+
+          // Update user's high score
+          const userEmail = this.$route.params.userEmail;
+
+          // Retrieve user's current high score
+          const userHighScore = this.$root.UserHighScore;
+
+          // If the current game score is higher than the user's high score, update it
+          if (totalPoints > userHighScore) {
+            // Update the high score in the API
+            userService.putUser(userEmail, { highScore: totalPoints });
+            console.log('User high score updated!');
           }
-        }, 1000); // Update every second
-      },
+
+          // Push the score to the API
+          userService.putUser(userEmail, { score: totalPoints });
+
+          clearInterval();
+        }
+      }, 1000); // Update every second
     },
-  };
+  },
+};
   </script>
   
   <style scoped>

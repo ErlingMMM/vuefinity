@@ -24,6 +24,8 @@ export default {
     this.setRandomBackground();
     this.setButtonPosition();
     this.startCountdown();
+    this.$root.UserHighScore = 0; // Initialize UserHighScore
+    this.$root.reactionTime = 0;
   },
   computed: {
     countdownFormatted() {
@@ -89,8 +91,7 @@ export default {
       const elapsedTime = this.endTime - this.startTime;
 
       // Attach the elapsed time to the Vue instance
-      this.$root.reactionTime = elapsedTime;
-
+      this.$root.UserHighScore = elapsedTime;
       // Redirect to the next page
       this.$router.push({ name: 'reaction-time' });
     },
