@@ -1,58 +1,38 @@
 <template>
-    <div class="leaderboard-container">
-      <header class="leaderboard-header">
-        <!-- The logo image is commented out, make sure to uncomment and use the correct path if needed -->
-        <!-- <img src="@/assets/experis-logo.png" alt="Experis Academy Logo" /> -->
-        <h1>Highscores</h1>
-      </header>
-      <ul class="highscore-list">
-        <highscore-item
-          v-for="(user, index) in users"
-          :key="index"
-          
-          :name="user.name"
-          :score="user.Score"
-          :email="user.email"          
-          class="highscore-entry"
-        ></highscore-item>
-      </ul>
-    </div>
-  </template>
-  
-  <script>
-
-  import HighscoreItem from './HighscoreItem.vue';
-  import userService from '../services/userService.js';
-  
-  export default {
-    
-    setup() {
+  <div class="leaderboard-container">
+    <header class="leaderboard-header">
       
-  const users = userService.getTop10();
-      /*const fetchHighScores = async () => {
-        try {
-           // Ensure this is a method that returns a Promise
-          highscores.value = users.map(user => ({
-            
-            name: user.Name,
-            highscore: user.Score, // Ensure this property name is consistent with your backend
-            email: user.Email,
-          }));
-        } catch (error) {
-          console.error('Error fetching highscores:', error);
-        }
-      };*/
+      <h1>Highscores</h1>
+    </header>
+    <ul class="highscore-list">
+      <highscore-item
+        v-for="(user, index) in users"
+        :key="index"
+        :name="user.name"
+        :score="user.score"
+        :email="user.email"          
+        class="highscore-entry"
+      ></highscore-item>
+    </ul>
+  </div>
+</template>
   
-      //fetchHighScores(); // Invoke the fetch method
-  
-      return {
-        users
-      }
-    },
-    components: {
-      HighscoreItem
+<script>
+import HighscoreItem from './HighscoreItem.vue';
+import userService from '../services/userService.js';
+
+export default {
+  setup() {
+    const users = userService.getTop10(); // <-- Må byttes til getTop10
+
+    return {
+      users
     }
-  };
+  },
+  components: {
+    HighscoreItem
+  }
+};
 </script>
   
 <style scoped>

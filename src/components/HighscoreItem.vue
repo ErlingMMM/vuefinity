@@ -1,20 +1,20 @@
 <template>
-    <article class="highscore-item mx-auto">
-        <div class="header w-100 p-2">
-            <h3>{{ Name }}</h3>
-            <p>{{ Email }}</p>
-            <h5>Score: {{ Score }}</h5>
-        </div>
-    </article>
+  <article class="highscore-item mx-auto">
+    <div class="header w-100 p-2">
+      <h3>{{ name }}</h3>
+      <p>{{ email }}</p>
+      <h5>Score: {{ score }}</h5>
+    </div>
+  </article>
 </template>
 
 <script>
 export default {
-    props: {
-        name: String,
-        score: Number,
-        email: String,
-    }
+  props: {
+    name: String,
+    score: Number,
+    email: String,
+  }
 }
 </script>
 
