@@ -3,6 +3,7 @@
     <div class="header w-100 p-2">
       <h3>{{ name }}</h3>
       <p>{{ email }}</p>
+      <p>{{ phoneNumber }}</p>
       <h5>Score: {{ score }}</h5>
     </div>
   </article>
@@ -14,6 +15,7 @@ export default {
     name: String,
     score: Number,
     email: String,
+    phoneNumber: Number
   }
 }
 </script>

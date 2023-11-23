@@ -10,7 +10,8 @@
         :key="index"
         :name="user.name"
         :score="user.score"
-        :email="user.email"          
+        :email="user.email"   
+        :phoneNumber="user.phoneNumber"       
         class="highscore-entry"
       ></highscore-item>
     </ul>
@@ -23,7 +24,7 @@ import userService from '../services/userService.js';
 
 export default {
   setup() {
-    const users = userService.getTop10(); // <-- Må byttes til getTop10
+    const users = userService.getTop10Users(); // <-- Må byttes til getTop10
 
     return {
       users
