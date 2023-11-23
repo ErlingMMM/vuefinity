@@ -45,10 +45,7 @@ console.log(users.value);
     }
   };
 
-  const email = 'test2@mail.com';
-const updatedUserData = {
-  newScore: 1500, 
-};
+
 
 
 
@@ -80,7 +77,7 @@ const putUser = async (email, userData) => {
   }
 };
 
-putUser(email, updatedUserData);
+//putUser(email, updatedUserData);
 
 
   // Get top 10 highscores

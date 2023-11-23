@@ -153,8 +153,11 @@
         console.log('User high score updated!');
       }
 
+      const userEmail = localStorage.getItem('userEmail');
+
+
       // Push the score to the API
-      userService.putUser(this.$route.params.userEmail, { score: totalPoints });
+      userService.putUser(userEmail, { score: totalPoints });
 
       clearInterval();
     }

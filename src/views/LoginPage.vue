@@ -57,9 +57,14 @@ export default {
           };
 
           await userService.postUser(newUser);
+
+          // Save the email in local storage
+          localStorage.setItem('userEmail', this.email);
+
           const gameRoute = { name: 'game', params: { userEmail: this.email } };
           console.log('User Email in LoginPage:', this.email);
           this.$router.push(gameRoute);
+
 
           // Pass the email to the ColorTextPage component
           this.$router.push({
