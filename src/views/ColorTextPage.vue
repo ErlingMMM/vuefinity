@@ -147,7 +147,6 @@ export default {
           const userEmail = localStorage.getItem('userEmail');
           const storedUserHighScore = localStorage.getItem('score');
           const userHighScore = storedUserHighScore ? parseInt(storedUserHighScore, 10) : 0;
-
          
 
           // Push the sum of points (converted to integer) to the API
