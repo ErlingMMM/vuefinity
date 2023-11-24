@@ -41,6 +41,8 @@
             <input ref="modalInput" placeholder="Fyll inn din e-post adresse" class="modal-input" v-model="modalInput" />
         </div>
       </div>
+      <button type="submit" class="big-button modal-button">Start spillet</button>
+
       <div class="modal-footer">
         <h3>Modal Footer</h3>
       </div>
@@ -326,6 +328,12 @@ border: none
 
 .input-wrapper:focus-within {
   box-shadow: 0 0 4px gray; 
+}
+
+.modal-button {
+  height: auto; 
+  padding: 13px; 
+  font-size: 16px; 
 }
 
 </style>
