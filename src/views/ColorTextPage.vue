@@ -29,13 +29,15 @@ export default {
     };
   },
   mounted() {
-    this.userEmail = this.$route.params.userEmail;
-    this.generateNewShapes();
-    this.startCountdown();
-    setInterval(() => {
+  this.userEmail = this.$route.params.userEmail;
+  this.generateNewShapes();
+  this.startCountdown();
+  setInterval(() => {
+    this.$nextTick(() => {
       this.updateCountdown();
-    }, 1000);
-  },
+    });
+  }, 1000);
+},
   methods: {
     generateRandomShape(imageName, imageContainer) {
       const imgElement = new Image();
@@ -83,9 +85,13 @@ export default {
     },
 
     updateCountdown() {
-      const countdownElement = document.querySelector('.countdown-text');
+  this.$nextTick(() => {
+    const countdownElement = document.querySelector('.countdown-text');
+    if (countdownElement) {
       countdownElement.textContent = `Time Left: ${this.countdown} seconds`;
-    },
+    }
+  });
+},
 
     generateNewShapes() {
       if (this.gameEnded) return; // Do nothing if the game has ended
@@ -157,6 +163,7 @@ export default {
 
           // Clear the interval using the stored ID
           clearInterval(intervalId);
+          this.$router.push({ name: 'leaderboard' });
         }
       }, 1000);
     },
