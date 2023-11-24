@@ -38,10 +38,10 @@
       </div>
       <div class="modal-body">
         <div class="input-wrapper" @click="focusInput">
-            <input ref="modalInput" placeholder="Fyll inn din e-post adresse" class="modal-input" v-model="modalInput" />
+          <input ref="modalInput" placeholder="Fyll inn din e-post adresse" class="modal-input" v-model="modalInput" />
         </div>
       </div>
-      <button type="submit" class="big-button modal-button">Start spillet</button>
+      <button type="submit" @click="startGameExistingUser" class="big-button modal-button">Start spillet</button>
 
       <div class="modal-footer">
         <h3>Modal Footer</h3>
@@ -64,16 +64,19 @@ export default {
     };
   },
   methods: {
-    async startGame() {
+    async performGameAction(email, getUserEndpoint, isExistingUser) {
       try {
-        // Check if the email already exists in the database
-        const userExists = userService.getAll().value.some(user => user.email === this.email);
+        const userExists = userService[getUserEndpoint]().value.some(user => user.email === email);
 
-        if (userExists) {
-          // Email already exists, handle accordingly
+        if (isExistingUser && !userExists) {
+          alert('User with this email does not exist!');
+        } else if (!isExistingUser && userExists) {
           alert('User with this email already exists!');
-        } else {
-          // Email does not exist, post a new user
+        }
+
+     
+
+        if (!isExistingUser) {
           const newUser = {
             name: this.name,
             email: this.email,
@@ -83,23 +86,40 @@ export default {
           };
 
           await userService.postUser(newUser);
-
-          // Save the email in local storage
-          localStorage.setItem('userEmail', this.email);
-
-          const gameRoute = { name: 'game', params: { userEmail: this.email } };
-          console.log('User Email in LoginPage:', this.email);
-          this.$router.push(gameRoute);
-
-
-          // Pass the email to the ColorTextPage component
-          this.$router.push({
-            name: 'where-is-waldo',
-            params: { userEmail: this.email },
-          });
         }
+
+
+           // Store the email in local storage regardless of user type
+           localStorage.setItem('userEmail', email);
+
+        const gameRoute = { name: 'game', params: { userEmail: email } };
+        console.log('User Email in LoginPage:', email);
+        this.$router.push(gameRoute);
+
+        this.$router.push({
+          name: 'where-is-waldo',
+          params: { userEmail: email },
+        });
+      } catch (error) {
+        console.error('Error performing game action:', error);
+      }
+    },
+
+    async startGame() {
+      try {
+        const getUserEndpoint = 'getAll'; // Replace with the actual new endpoint for getAll
+        await this.performGameAction(this.email, getUserEndpoint, false);
       } catch (error) {
         console.error('Error starting the game:', error);
+      }
+    },
+
+    async startGameExistingUser() {
+      try {
+        const getUserEndpoint = 'getUserByMail'; // Replace with the actual endpoint for getUserByMail
+        await this.performGameAction(this.modalInput, getUserEndpoint, true);
+      } catch (error) {
+        console.error('Error starting the game for existing user:', error);
       }
     },
 
@@ -312,7 +332,7 @@ export default {
 }
 
 .modal-input {
-border: none
+  border: none
 }
 
 .modal-input:focus {
@@ -323,17 +343,16 @@ border: none
   border: 2px solid #ccc;
   border-radius: 10px;
   padding: 16px 5px;
-    margin-bottom: 0.5cm;
+  margin-bottom: 0.5cm;
 }
 
 .input-wrapper:focus-within {
-  box-shadow: 0 0 4px gray; 
+  box-shadow: 0 0 4px gray;
 }
 
 .modal-button {
-  height: auto; 
-  padding: 13px; 
-  font-size: 16px; 
+  height: auto;
+  padding: 13px;
+  font-size: 16px;
 }
-
 </style>
