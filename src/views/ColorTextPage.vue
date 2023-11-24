@@ -169,6 +169,7 @@ export default {
       clearInterval(intervalId);
       this.$router.push({ name: 'leaderboard' });
     }
+    
   }, 1000);
 },
   },
