@@ -8,7 +8,7 @@ import HighscoreList from '../components/HighscoreList.vue';
 export default {
   name: 'LeaderboardPage',
   components: {
-      HighscoreList,
+      HighscoreList
   },
 }
 </script>
