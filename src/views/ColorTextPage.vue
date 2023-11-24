@@ -141,34 +141,36 @@ export default {
       scoreElement.textContent = `Score: ${this.points}`;
     },
 
-    startCountdown() {
-      const intervalId = setInterval(() => {
-        if (this.countdown > 0) {
-          this.countdown--;
-          this.updateCountdown();
-        } else {
-          console.log('Game Over! Total Points:', this.points);
+    async startCountdown() {
+  const intervalId = setInterval(async () => {
+    if (this.countdown > 0) {
+      this.countdown--;
+      this.updateCountdown();
+    } else {
+      console.log('Game Over! Total Points:', this.points);
 
-          // Update user's high score
-          const userEmail = localStorage.getItem('userEmail');
-          const storedUserHighScore = localStorage.getItem('score');
-          console.log('storedUserHighScore', storedUserHighScore)
-          const userHighScore = storedUserHighScore ? parseFloat(storedUserHighScore, 10) : 0;
-          console.log('userHighScore', userHighScore)
-          console.log('this.points', this.points)
+      // Update user's high score
+      const userEmail = localStorage.getItem('userEmail');
+      const storedUserHighScore = localStorage.getItem('score');
+      const userHighScore = storedUserHighScore ? parseFloat(storedUserHighScore, 10) : 0;
 
-          // Push the sum of points (converted to integer) to the API
-          userService.putUser(userEmail, { newScore: parseInt(userHighScore * this.points, 10) });
-          console.log('User high score updated!');
+      try {
+        // Push the sum of points (converted to integer) to the API
+        await userService.putUser(userEmail, { newScore: parseInt(userHighScore * this.points, 10) });
+        console.log('User high score updated!');
+      } catch (error) {
+        console.error('Error updating user high score:', error);
+        // Handle the error, if necessary
+      }
 
-          this.gameEnded = true;
+      this.gameEnded = true;
 
-          // Clear the interval using the stored ID
-          clearInterval(intervalId);
-          this.$router.push({ name: 'leaderboard' });
-        }
-      }, 1000);
-    },
+      // Clear the interval using the stored ID
+      clearInterval(intervalId);
+      this.$router.push({ name: 'leaderboard' });
+    }
+  }, 1000);
+},
   },
 };
 </script>
