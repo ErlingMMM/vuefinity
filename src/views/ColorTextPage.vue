@@ -152,11 +152,13 @@ export default {
           // Update user's high score
           const userEmail = localStorage.getItem('userEmail');
           const storedUserHighScore = localStorage.getItem('score');
-          const userHighScore = storedUserHighScore ? parseInt(storedUserHighScore, 10) : 0;
-         
+          console.log('storedUserHighScore', storedUserHighScore)
+          const userHighScore = storedUserHighScore ? parseFloat(storedUserHighScore, 10) : 0;
+          console.log('userHighScore', userHighScore)
+          console.log('this.points', this.points)
 
           // Push the sum of points (converted to integer) to the API
-          userService.putUser(userEmail, { newScore: userHighScore + this.points });
+          userService.putUser(userEmail, { newScore: userHighScore * this.points });
           console.log('User high score updated!');
 
           this.gameEnded = true;

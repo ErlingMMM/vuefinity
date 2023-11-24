@@ -92,8 +92,8 @@ export default {
       const elapsedTime = this.endTime - this.startTime;
 
       // Calculate the remaining time in seconds
-      const remainingTime = Math.max(this.countdownSeconds - (elapsedTime / 1000), 0);
-
+      const remainingTime = Math.max((this.countdownSeconds - (elapsedTime))*(-1), 0);
+      console.log((this.countdownSeconds - (elapsedTime))*(-1));
       // Set the score to a minimum of 0.1 seconds if the user didn't click in time
       //const score = remainingTime > 0 ? remainingTime : 0.1;
 

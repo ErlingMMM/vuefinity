@@ -17,6 +17,7 @@
 
   
 <script>
+
 export default {
   data() {
     return {
@@ -92,9 +93,13 @@ export default {
     },
 
     updateHighScore(newTime) {
+      console.log('newTime', newTime)
       const savedScore = localStorage.getItem('score') || null
+      console.log('savedScore', savedScore)
       const scoreFirsGame = parseFloat(savedScore)
-      const updatedScore = (newTime / 5) + scoreFirsGame
+      console.log('scoreFirsGame', scoreFirsGame)
+      const updatedScore = scoreFirsGame / (newTime / 5)
+      console.log('updatedScore', updatedScore);
       localStorage.setItem('score', updatedScore.toString());
     },
     handleTestComplete() {
