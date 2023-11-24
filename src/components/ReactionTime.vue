@@ -41,6 +41,7 @@ export default {
       this.isGreen = false;
       this.changeColor();
       this.correctClicks = 0;
+      this.updatedScore = 0;
       //this.success = false; 
     },
 
@@ -93,14 +94,18 @@ export default {
     },
 
     updateHighScore(newTime) {
-      console.log('newTime', newTime)
       const savedScore = localStorage.getItem('score') || null
-      console.log('savedScore', savedScore)
       const scoreFirsGame = parseFloat(savedScore)
-      console.log('scoreFirsGame', scoreFirsGame)
-      const updatedScore = scoreFirsGame / (newTime / 5)
-      console.log('updatedScore', updatedScore);
-      localStorage.setItem('score', updatedScore.toString());
+      this.updatedScore += newTime
+      if (this.correctClicks >= 4) {
+        const finalScore = scoreFirsGame / (this.updatedScore / 5000)
+        console.log("finalScore", finalScore)
+        localStorage.setItem('score', finalScore.toString());
+      }
+      else {
+        console.log("updatedScore", this.updatedScore)
+        localStorage.setItem('uScore', this.updatedScore.toString());
+      }
     },
     handleTestComplete() {
       this.$emit('testComplete');
