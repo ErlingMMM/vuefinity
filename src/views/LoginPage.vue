@@ -38,10 +38,10 @@
       </div>
       <div class="modal-body">
         <div class="input-wrapper" @click="focusInput">
-            <input ref="modalInput" placeholder="Fyll inn din e-post adresse" class="modal-input" v-model="modalInput" />
+          <input ref="modalInput" placeholder="Fyll inn din e-post adresse" class="modal-input" v-model="modalInput" />
         </div>
       </div>
-      <button type="submit" class="big-button modal-button">Start spillet</button>
+      <button type="submit" @click="startGameExistingUser" class="big-button modal-button">Start spillet</button>
 
       <div class="modal-footer">
         <h3>Modal Footer</h3>
@@ -66,6 +66,7 @@ export default {
   methods: {
     async startGame() {
       try {
+
         // Check if the email already exists in the database
         const userExists = userService.getAll().value.some(user => user.email === this.email);
 
@@ -100,6 +101,40 @@ export default {
         }
       } catch (error) {
         console.error('Error starting the game:', error);
+      }
+    },
+
+    async startGameExistingUser() {
+      try {
+        this.email = this.modalInput;
+        const userExists = userService.getAll().value.some(user => user.email === this.email);
+
+        if (!userExists) {
+          alert('User with this email does not exist!');
+        }
+        else {
+     
+
+          // Save the email in local storage
+          localStorage.setItem('userEmail', this.email);
+
+          const gameRoute = { name: 'game', params: { userEmail: this.email } };
+          console.log('User Email in LoginPage:', this.email);
+          this.$router.push(gameRoute);
+
+
+          // Pass the email to the ColorTextPage component
+          this.$router.push({
+            name: 'where-is-waldo',
+            params: { userEmail: this.email },
+          });
+
+        }
+
+
+
+      } catch (error) {
+        console.error('Error starting the game for existing user:', error);
       }
     },
 
@@ -312,7 +347,7 @@ export default {
 }
 
 .modal-input {
-border: none
+  border: none
 }
 
 .modal-input:focus {
@@ -323,17 +358,16 @@ border: none
   border: 2px solid #ccc;
   border-radius: 10px;
   padding: 16px 5px;
-    margin-bottom: 0.5cm;
+  margin-bottom: 0.5cm;
 }
 
 .input-wrapper:focus-within {
-  box-shadow: 0 0 4px gray; 
+  box-shadow: 0 0 4px gray;
 }
 
 .modal-button {
-  height: auto; 
-  padding: 13px; 
-  font-size: 16px; 
+  height: auto;
+  padding: 13px;
+  font-size: 16px;
 }
-
 </style>
