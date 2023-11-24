@@ -23,7 +23,30 @@
       <button type="submit" class="big-button">Start spillet</button>
     </form>
   </div>
-  <button type="submit" class="new-try-button">Ny sjanse</button>
+  <button @click="openModal" class="new-try-button">Ny sjanse</button>
+
+
+
+   <!-- The Modal -->
+   <div id="myModal" class="modal">
+
+<!-- Modal content -->
+<div class="modal-content">
+  <div class="modal-header">
+    <span @click="closeModal" class="close">&times;</span>
+    <h2>Modal Header</h2>
+  </div>
+  <div class="modal-body">
+    <p>Some text in the Modal Body</p>
+    <p>Some other text...</p>
+  </div>
+  <div class="modal-footer">
+    <h3>Modal Footer</h3>
+  </div>
+</div>
+
+</div>
+
 </template>
 
 <script>
@@ -76,6 +99,17 @@ export default {
       } catch (error) {
         console.error('Error starting the game:', error);
       }
+    },
+
+
+    openModal() {
+      const modal = document.getElementById("myModal");
+      modal.style.display = "block";
+    },
+
+    closeModal() {
+      const modal = document.getElementById("myModal");
+      modal.style.display = "none";
     },
   },
 };
@@ -184,5 +218,75 @@ export default {
   /* Adjust the height as needed */
   margin-left: 10px;
   /* Adjust the margin between the text and the checkbox */
+}
+
+
+
+/**Modal */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
 }
 </style>
