@@ -28,25 +28,23 @@
 
 
    <!-- The Modal -->
-   <div id="myModal" class="modal">
+   <div v-show="isModalOpen" @click.self="closeModal" class="modal">
 
-<!-- Modal content -->
-<div class="modal-content">
-  <div class="modal-header">
-    <span @click="closeModal" class="close">&times;</span>
-    <h2>Modal Header</h2>
-  </div>
-  <div class="modal-body">
-    <p>Some text in the Modal Body</p>
-    <p>Some other text...</p>
-  </div>
-  <div class="modal-footer">
-    <h3>Modal Footer</h3>
-  </div>
-</div>
-
-</div>
-
+  <!-- Modal content -->
+  <div class="modal-content">
+        <div class="modal-header">
+          <span @click="closeModal" class="close">&times;</span>
+          <h2>Modal Header</h2>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the Modal Body</p>
+          <p>Some other text...</p>
+        </div>
+        <div class="modal-footer">
+          <h3>Modal Footer</h3>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -59,6 +57,7 @@ export default {
       email: '',
       phone: '',
       acceptTerms: false,
+      isModalOpen: false,
     };
   },
   methods: {
@@ -103,13 +102,11 @@ export default {
 
 
     openModal() {
-      const modal = document.getElementById("myModal");
-      modal.style.display = "block";
+      this.isModalOpen = true;
     },
 
     closeModal() {
-      const modal = document.getElementById("myModal");
-      modal.style.display = "none";
+      this.isModalOpen = false;
     },
   },
 };
@@ -225,7 +222,6 @@ export default {
 /**Modal */
 
 .modal {
-  display: none;
   position: fixed;
   z-index: 1;
   padding-top: 100px;
