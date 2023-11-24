@@ -68,7 +68,7 @@ export default {
 
         if (userExists) {
           // Email already exists, handle accordingly
-          console.log('User with this email already exists!');
+          alert('User with this email already exists!');
         } else {
           // Email does not exist, post a new user
           const newUser = {
