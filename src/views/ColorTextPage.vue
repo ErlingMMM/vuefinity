@@ -158,7 +158,7 @@ export default {
           console.log('this.points', this.points)
 
           // Push the sum of points (converted to integer) to the API
-          userService.putUser(userEmail, { newScore: userHighScore * this.points });
+          userService.putUser(userEmail, { newScore: parseInt(userHighScore * this.points, 10) });
           console.log('User high score updated!');
 
           this.gameEnded = true;
