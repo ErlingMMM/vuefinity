@@ -70,12 +70,30 @@ const putUser = async (email, userData) => {
   }
 };
 
+const deleteAllUsers = async () => {
+  try {
+    const response = await fetch(`${userControllerUrl}/deleteAllUsers`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Directly set the value without triggering reactivity update
+    users.value = [];
+  } catch (error) {
+    console.error('Error deleting all users:', error);
+  }
+};
+
 //putUser(email, updatedUserData);
 
   return {
     postUser,
     putUser,
     getAll,
+    deleteAllUsers,
   };
 
 }());
