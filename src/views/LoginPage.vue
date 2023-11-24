@@ -37,8 +37,8 @@
         <h2>Modal Header</h2>
       </div>
       <div class="modal-body">
-        <div class="input-wrapper" @focusin="onInputWrapperFocus" @focusout="onInputWrapperBlur">
-          <input placeholder="Fyll inn din e-post adresse" class="modal-input" v-model="modalInput" />
+        <div class="input-wrapper" @click="focusInput">
+            <input ref="modalInput" placeholder="Fyll inn din e-post adresse" class="modal-input" v-model="modalInput" />
         </div>
       </div>
       <div class="modal-footer">
@@ -108,6 +108,10 @@ export default {
 
     closeModal() {
       this.isModalOpen = false;
+    },
+
+    focusInput() {
+      this.$refs.modalInput.focus();
     },
   },
 };
