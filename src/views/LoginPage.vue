@@ -107,7 +107,7 @@ export default {
 
     async startGame() {
       try {
-        const getUserEndpoint = 'getAll'; // Replace with the actual new endpoint for getAll
+        const getUserEndpoint = 'getAll'; 
         await this.performGameAction(this.email, getUserEndpoint, false);
       } catch (error) {
         console.error('Error starting the game:', error);
@@ -116,7 +116,7 @@ export default {
 
     async startGameExistingUser() {
       try {
-        const getUserEndpoint = 'getUserByMail'; // Replace with the actual endpoint for getUserByMail
+        const getUserEndpoint = 'getAll'; 
         await this.performGameAction(this.modalInput, getUserEndpoint, true);
       } catch (error) {
         console.error('Error starting the game for existing user:', error);
