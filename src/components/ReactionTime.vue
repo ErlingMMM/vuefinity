@@ -7,10 +7,10 @@
     <div v-else-if="isGreen && !success" class="message">Klikk!</div>
     <div v-if="success" class="success-message">
       <p>Gratulerer! Du trykket riktig 5 ganger!</p>
-      <button @click="goToColorTextPage">Go to the next test</button>
+      <button @click="goToColorTextPage">Neste spill</button>
     </div>
     <div v-if="reactionTime && !failed && !success" class="reaction-time">Din reaksjonstid: {{ reactionTime }} ms</div>
-    <div v-if="highScore && !failed && !success" class="high-score">High Score: {{ highScore }} ms</div>
+    <!-- <div v-if="highScore && !failed && !success" class="high-score">High Score: {{ highScore }} ms</div> -->
     <div v-if="failed" class="fail-message">For tidlig! Trykk hvor som helst for å starte på nytt.</div>
   </section>
 </template>
