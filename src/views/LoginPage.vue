@@ -23,7 +23,7 @@
       <button type="submit" class="big-button">Start spillet</button>
     </form>
   </div>
-  <button @click="openModal" class="new-try-button">Ny sjanse</button>
+  <button @click="openModal" class="new-try-button">Allerede registrert?</button>
 
 
 

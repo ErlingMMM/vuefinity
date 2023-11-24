@@ -4,6 +4,7 @@ import WhereIsWaldoPage from '../views/WhereIsWaldoPage.vue';
 import ReactionTimePage from '../views/ReactionTimePage.vue';
 import ColorTextPage from '../views/ColorTextPage.vue';
 import LeaderboardPage from '../views/LeaderboardPage.vue';
+import AdminPage from '../views/AdminPage.vue';
 
 const routes = [
     {
@@ -36,7 +37,12 @@ const routes = [
         name: 'game',
         component: ColorTextPage,
         props: true,
-      },
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: AdminPage
+    }
 ];
 
 const router = createRouter({

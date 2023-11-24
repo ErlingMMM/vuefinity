@@ -29,19 +29,7 @@ export default {
     };
   },
   components: {
-    HighscoreItem
-  },
-  async created() {
-    this.top10 = await highscoreService.getTop10();
-
-    // Check if the current user is in the top 3
-    const currentUserEmail = 'current_user_email'; // Replace with the actual user email
-    const isTop3 = this.top10.slice(0, 3).some(user => user.email === currentUserEmail);
-
-    // Trigger confetti explosion if the current user is in the top 3
-    if (isTop3) {
-      confetti();
-    }
+      HighscoreList,
   },
 };
 </script>
