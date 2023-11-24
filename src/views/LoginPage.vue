@@ -27,24 +27,25 @@
 
 
 
-   <!-- The Modal -->
-   <div v-show="isModalOpen" @click.self="closeModal" class="modal">
+  <!-- The Modal -->
+  <div v-show="isModalOpen" @click.self="closeModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-        <div class="modal-header">
-          <span @click="closeModal" class="close">&times;</span>
-          <h2>Modal Header</h2>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the Modal Body</p>
-          <p>Some other text...</p>
-        </div>
-        <div class="modal-footer">
-          <h3>Modal Footer</h3>
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span @click="closeModal" class="close">&times;</span>
+        <h2>Modal Header</h2>
+      </div>
+      <div class="modal-body">
+        <div class="input-wrapper" @focusin="onInputWrapperFocus" @focusout="onInputWrapperBlur">
+          <input placeholder="Fyll inn din e-post adresse" class="modal-input" v-model="modalInput" />
         </div>
       </div>
+      <div class="modal-footer">
+        <h3>Modal Footer</h3>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -230,8 +231,8 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
@@ -241,7 +242,7 @@ export default {
   padding: 0;
   border: 1px solid #888;
   width: 40%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
@@ -251,13 +252,27 @@ export default {
 
 
 @-webkit-keyframes animatetop {
-  from {top:-300px; opacity:0} 
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
 }
 
 @keyframes animatetop {
-  from {top:-300px; opacity:0}
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
 }
 
 .close {
@@ -275,17 +290,38 @@ export default {
 }
 
 .modal-header {
-
   padding: 2px 16px;
   background-color: white;
   color: white;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {
+  padding: 2px 16px;
+}
 
 .modal-footer {
   padding: 2px 16px;
   background-color: white;
   color: white;
 }
+
+.modal-input {
+border: none
+}
+
+.modal-input:focus {
+  outline: none;
+}
+
+.input-wrapper {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 16px 5px;
+    margin-bottom: 0.5cm;
+}
+
+.input-wrapper:focus-within {
+  box-shadow: 0 0 4px gray; 
+}
+
 </style>
