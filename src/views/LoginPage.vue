@@ -151,7 +151,6 @@ export default {
 }
 
 .new-try-button {
-
   color: blue;
   border: none;
   background-color: white;
@@ -159,7 +158,8 @@ export default {
 }
 
 .new-try-button:hover {
-text-decoration: underline; /* Underline the text */
+  text-decoration: underline;
+  /* Underline the text */
 }
 
 .checkbox-group {
@@ -184,4 +184,5 @@ text-decoration: underline; /* Underline the text */
   /* Adjust the height as needed */
   margin-left: 10px;
   /* Adjust the margin between the text and the checkbox */
-}</style>
+}
+</style>
