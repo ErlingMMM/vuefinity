@@ -240,13 +240,15 @@ export default {
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 80%;
+  width: 40%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
   animation-duration: 0.4s;
 }
+
+
 
 @-webkit-keyframes animatetop {
   from {top:-300px; opacity:0} 
@@ -259,7 +261,7 @@ export default {
 }
 
 .close {
-  color: white;
+  color: black;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -267,14 +269,15 @@ export default {
 
 .close:hover,
 .close:focus {
-  color: #000;
+  color: gray;
   text-decoration: none;
   cursor: pointer;
 }
 
 .modal-header {
+
   padding: 2px 16px;
-  background-color: #5cb85c;
+  background-color: white;
   color: white;
 }
 
@@ -282,7 +285,7 @@ export default {
 
 .modal-footer {
   padding: 2px 16px;
-  background-color: #5cb85c;
+  background-color: white;
   color: white;
 }
 </style>
