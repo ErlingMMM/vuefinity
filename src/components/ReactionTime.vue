@@ -50,7 +50,7 @@ export default {
         // Do nothing if the user has already completed the game successfully
         return;
       }
-      if (!this.gameStarted || this.failed) {
+      if (!this.gameStarted) {
         // If the game hasn't started or the user has failed by clicking too soon
         this.startGame();
       } else if (this.isGreen) {

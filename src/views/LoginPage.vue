@@ -64,19 +64,17 @@ export default {
     };
   },
   methods: {
-    async performGameAction(email, getUserEndpoint, isExistingUser) {
+    async startGame() {
       try {
-        const userExists = userService[getUserEndpoint]().value.some(user => user.email === email);
 
-        if (isExistingUser && !userExists) {
-          alert('User with this email does not exist!');
-        } else if (!isExistingUser && userExists) {
+        // Check if the email already exists in the database
+        const userExists = userService.getAll().value.some(user => user.email === this.email);
+
+        if (userExists) {
+          // Email already exists, handle accordingly
           alert('User with this email already exists!');
-        }
-
-     
-
-        if (!isExistingUser) {
+        } else {
+          // Email does not exist, post a new user
           const newUser = {
             name: this.name,
             email: this.email,
@@ -86,29 +84,21 @@ export default {
           };
 
           await userService.postUser(newUser);
+
+          // Save the email in local storage
+          localStorage.setItem('userEmail', this.email);
+
+          const gameRoute = { name: 'game', params: { userEmail: this.email } };
+          console.log('User Email in LoginPage:', this.email);
+          this.$router.push(gameRoute);
+
+
+          // Pass the email to the ColorTextPage component
+          this.$router.push({
+            name: 'where-is-waldo',
+            params: { userEmail: this.email },
+          });
         }
-
-
-           // Store the email in local storage regardless of user type
-           localStorage.setItem('userEmail', email);
-
-        const gameRoute = { name: 'game', params: { userEmail: email } };
-        console.log('User Email in LoginPage:', email);
-        this.$router.push(gameRoute);
-
-        this.$router.push({
-          name: 'where-is-waldo',
-          params: { userEmail: email },
-        });
-      } catch (error) {
-        console.error('Error performing game action:', error);
-      }
-    },
-
-    async startGame() {
-      try {
-        const getUserEndpoint = 'getAll'; 
-        await this.performGameAction(this.email, getUserEndpoint, false);
       } catch (error) {
         console.error('Error starting the game:', error);
       }
@@ -116,12 +106,38 @@ export default {
 
     async startGameExistingUser() {
       try {
-        const getUserEndpoint = 'getAll'; 
-        await this.performGameAction(this.modalInput, getUserEndpoint, true);
+        this.email = this.modalInput;
+        const userExists = userService.getAll().value.some(user => user.email === this.email);
+
+        if (!userExists) {
+          alert('User with this email does not exist!');
+        }
+        else {
+     
+
+          // Save the email in local storage
+          localStorage.setItem('userEmail', this.email);
+
+          const gameRoute = { name: 'game', params: { userEmail: this.email } };
+          console.log('User Email in LoginPage:', this.email);
+          this.$router.push(gameRoute);
+
+
+          // Pass the email to the ColorTextPage component
+          this.$router.push({
+            name: 'where-is-waldo',
+            params: { userEmail: this.email },
+          });
+
+        }
+
+
+
       } catch (error) {
         console.error('Error starting the game for existing user:', error);
       }
     },
+
 
 
     openModal() {
