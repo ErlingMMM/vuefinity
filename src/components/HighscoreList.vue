@@ -1,11 +1,11 @@
 <template>
   <div class="leaderboard-container">
     <header class="leaderboard-header">
-      <h1>Highscores</h1>
+      <h1>Top 10 Highscores</h1>
     </header>
     <div class="list-headers">
       <h3>Rank</h3>
-      <h3>Name</h3>
+      <h3>Navn</h3>
       <h3>Score</h3>
     </div>
 
