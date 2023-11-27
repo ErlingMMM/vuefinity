@@ -3,8 +3,8 @@
     <div v-if="!gameStarted || failed" class="start-message">
       <p>Trykk på skjermen for å starte spillet</p>
     </div>
-    <div v-else-if="!isGreen && !success" class="message">vent på grønt</div>
-    <div v-else-if="isGreen && !success" class="message">Klikk!</div>
+    <div v-else-if="!isGreen && !success" class="message"><h2>VENT PÅ GRØNT</h2></div>
+    <div v-else-if="isGreen && !success" class="message"><h2>KLIKK!</h2></div>
     <div v-if="success" class="success-message">
       <p>Gratulerer! Du trykket riktig 5 ganger!</p>
       <button @click="goToColorTextPage">Neste spill</button>
@@ -64,6 +64,7 @@ export default {
           // Check if user has clicked correctly 5 times
           this.success = true;
           this.gameStarted = false;
+          this.$router.push({ name: 'color-text' });
         } else {
           this.isGreen = false;
           this.changeColor();
@@ -130,11 +131,11 @@ export default {
 }
 
 .red {
-  background-color: red;
+  background-color: #F87200;
 }
 
 .green {
-  background-color: green;
+  background-color: #72A89B;
 }
 
 .start-message {
@@ -169,7 +170,7 @@ button {
 }
 
 .success-message {
-  color: #4CAF50;
+  color: #4DAADD;
   /* Green color for success */
   font-size: 1.5rem;
   text-align: center;

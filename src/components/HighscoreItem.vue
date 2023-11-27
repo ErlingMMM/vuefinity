@@ -1,15 +1,15 @@
 <template>
-  <article class="highscore-item mx-auto">
-    <div class="header w-100 p-2">
-      <h3>{{ name }}</h3>
-      <h5>Score: {{ score }}</h5>
-    </div>
-  </article>
+  <li class="highscore-item">
+    <span class="highscore-rank">{{ rank }}.</span>
+    <span class="highscore-name">{{ name }}</span>
+    <span class="highscore-score">{{ score }}</span>
+  </li>
 </template>
 
 <script>
 export default {
   props: {
+    rank: Number,
     name: String,
     score: Number,
   }
@@ -18,19 +18,13 @@ export default {
 
 <style scoped>
 .highscore-item {
-  width: 50%; /* Adjust width as needed */
-  border: 1px solid #ddd; /* Optional border */
-  border-radius: 8px; /* Optional rounded corners */
-  overflow: hidden; /* Ensures no content spills out */
-  margin: 1rem auto; /* Center the item with a margin */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 0;
+  margin: 2%;
 }
 
-.header {
-  background-color: #f8f8f8; /* Light grey background */
-  padding: 1rem; /* Padding around the content */
-  text-align: center; /* Center the text */
-}
-
-/* Add other styles as needed */
 </style>

@@ -2,7 +2,7 @@
   <div class="users-container">
     <header class="users-header">
       <h1>Brukere</h1>
-      <button @click="deleteAllUsers" class="delete-button">Delete All Users</button>
+      <button @click="deleteAllUsers" class="delete-button">Slett alle brukere</button>
     </header>
     <ul class="user-list">
       <user-item

@@ -8,7 +8,7 @@
   export default {
     name: 'AdminPage',
     components: {
-        UserList,
+        UserList
     },
   }
   </script>
