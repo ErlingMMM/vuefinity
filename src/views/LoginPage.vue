@@ -332,7 +332,8 @@ export default {
 }
 
 .modal-input {
-  border: none
+  border: none;
+  width: 90%;
 }
 
 .modal-input:focus {

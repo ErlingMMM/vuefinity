@@ -4,6 +4,7 @@ const userService = (function() {
 
   const users = ref([]);
   const userControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User";
+  const currentUser = ref(null);
   
   console.log(users.value);
 
@@ -39,6 +40,26 @@ const userService = (function() {
       users.value.push(newUser);
     } catch (error) {
       console.error('Error posting user:', error);
+    }
+  };
+
+  const getCurrentUser = async () => {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) {
+      console.error('No user email found in localStorage');
+      return null;
+    }
+    try {
+      const response = await fetch(`${userControllerUrl}/ByEmail/${encodeURIComponent(userEmail)}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const userData = await response.json();
+      currentUser.value = userData; 
+      return userData;
+    } catch (error) {
+      console.error('Error fetching current user:', error);
+      return null;
     }
   };
 
@@ -94,6 +115,8 @@ const deleteAllUsers = async () => {
     putUser,
     getAll,
     deleteAllUsers,
+    getCurrentUser,
+    currentUser: () => currentUser,
   };
 
 }());
