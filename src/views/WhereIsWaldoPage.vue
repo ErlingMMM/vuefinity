@@ -73,8 +73,8 @@ export default {
         if (this.countdownSeconds <= 0) {
           // If time runs out and the button is not clicked, set the score to 0.1
           clearInterval(this.countdownInterval);
-          this.$root.UserHighScore = 0.1; // Set remaining time to 0.1 seconds
-          localStorage.setItem('score', '0.1');
+          this.$root.UserHighScore = 1; // Set remaining time to 0.1 seconds
+          localStorage.setItem('score', '1');
 
           // Redirect to the next page
           this.$router.push({ name: 'reaction-time' });
