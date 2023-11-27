@@ -1,11 +1,8 @@
 import { ref } from 'vue';
 
 const highscoreService = (function() {
-
   const top10 = ref([]);
   const top10ControllerUrl = "https://vuefinity20231121154528.azurewebsites.net/api/v1/User/top10";
-  
-  //console.log(top10.value);
 
   // Immediately-invoked function to get top 10 users
   const fetchTop10 = async () => {

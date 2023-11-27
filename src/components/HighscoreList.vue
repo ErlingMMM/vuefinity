@@ -2,18 +2,22 @@
   <div class="leaderboard-container">
     <header class="leaderboard-header">
       <h1>Highscores</h1>
-      <button @click="startNewGame" class="start-game-button">Start nytt spill</button>
     </header>
+    <div class="list-headers">
+      <h3>Rank</h3>
+      <h3>Name</h3>
+      <h3>Score</h3>
+    </div>
 
-    <ul class="highscore-list">
+    <ol class="highscore-list">  
       <highscore-item
-        v-for="(user, i) in users"
-        :key="i"
+        v-for="(user, index) in users"
+        :key="user.id"
+        :rank="index + 1"
         :name="user.name"
-        :score="user.score"  
-        class="highscore-entry"
+        :score="user.score"
       ></highscore-item>
-    </ul>
+    </ol>
 
     <button @click="startNewGame" class="start-game-button">Start nytt spill</button>
   </div>
@@ -55,43 +59,68 @@ export default {
 <style scoped>
 .leaderboard-container {
   text-align: center;
-  max-width: 600px; /* Set the max width for the leaderboard */
-  margin: 0 auto; /* Center the leaderboard */
+  max-width: 60%;
+  margin: 0 auto;
+  padding-bottom: 5%;
+}
+
+.list-headers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 0;
 }
 
 .leaderboard-header {
   margin-bottom: 1rem;
 }
 
-.leaderboard-header img {
-  max-width: 200px; /* Adjust as needed */
-  margin-bottom: 1rem;
-}
-
 .highscore-list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 2rem;
+  list-style-type: decimal;
+  padding-left: 0; 
+  margin-left: 1em; 
 }
 
 .highscore-entry {
-  margin-bottom: 0.5rem; 
-  font-size: 1.2rem; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 0;
+}
+
+.highscore-rank {
+  font-weight: bold;
+}
+
+.highscore-name {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.highscore-score {
+  min-width: 4rem;
+  text-align: right;
 }
 
 .start-game-button {
-  padding: 10px 20px;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  padding-left: 4%;
+  padding-right: 4%;
   font-size: 1rem;
   cursor: pointer;
-  background-color: #F87200; 
-  color: white;
+  background-color: #F87200;
+  color: #fff;
   border: none;
-  border-radius: 5px;
-  margin-bottom: 1rem;
+  border-radius: 20px;
 }
 
 .start-game-button:hover {
-  background-color: #FF8C29; 
+  background-color: #FF8C29;
 }
 
 </style>
